@@ -1,0 +1,20 @@
+{
+  "name": "delivery-app-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TinhDev007/delivery-app-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TinhDev007/delivery-app-api/issues"
+  },
+  "homepage": "https://github.com/TinhDev007/delivery-app-api#readme"
+}
