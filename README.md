@@ -23,9 +23,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/TinhDev007">
+  <!-- <a href="https://github.com/TinhDev007">
     <img src="./resources/TinhDev007.jpg" alt="Logo" >
-  </a>
+  </a> -->
 
   <h3 align="center">Delivery App API</h3>
 
@@ -70,11 +70,22 @@
 
 # Built with
 
-|Components |Spec Descriptions |
-| :---      |   :---            |
-|Database|[![PostgreSQL][postgresql]][postgresql-url]|
-|Web Server| [![NodeJS][nodejs]][nodejs-url]|
-|Web Application|[![ExpressJS][Expressjs]][Expressjs-url]|
+|Components |Platforms | Version |
+| :---      |   :---            | :---            |
+|Database|[![PostgreSQL][postgresql]][postgresql-url]| 14.4 |
+|Web Server| [![NodeJS][nodejs]][nodejs-url]| 16.15.0 |
+|Web Application|[![ExpressJS][Expressjs]][Expressjs-url]| 4.18.1 |
+
+## Initialize PostgreSQL
+
+- Install PostgreSQL
+- To enable `Restore` database, correct the Binary Path in the Preferences dialog
+    - Open `File` &#8594; `Preferences` &#8594;  `Paths` &#8594; `Binary Paths`
+    - Find `PostgreSQL 14` (your PostgreSQL version) and paste the binary path (e.g. `C:\Program Files\PostgreSQL\14\bin`) to that box 
+    
+# Execution
+
+
 
 # Contact
 *Duy Tinh Nguyen - [@xdtn7](https://www.linkedin.com/in/xdtn7/) - duytinhnguyenforwork@gmail.com*
