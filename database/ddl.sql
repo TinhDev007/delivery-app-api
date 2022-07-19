@@ -10,3 +10,40 @@ CREATE TABLE admin (
     age INTEGER,
     created_at TIMESTAMP DEFAULT NOW()
 );
+
+CREATE TABLE merchant (
+
+    id BIGSERIAL,
+    name TEXT,
+    description TEXT,
+    category TEXT,
+    address TEXT,
+    contact_number TEXT,
+    contact_email TEXT,
+    logo
+    typical_image
+
+);
+
+CREATE TABLE product (
+
+    id BIGSERIAL,
+    name TEXT,
+    description TEXT,
+    group TEXT,
+    price INTEGER,
+    quantity TEXT,
+    contact email TEXT,
+    logo
+    image
+
+);
+
+CREATE TABLE catagory (
+
+    id BIGSERIAL,
+    name TEXT,
+    image
+
+);
+

@@ -2,9 +2,9 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import { Routes } from "./routes/crmRoutes";
 import { Connection, createConnection } from "typeorm";
-import {Admin} from "./models/crmModel";
+import * as model from "./models/crmModel";
 import * as dotenv from "dotenv";
-dotenv.config({ path: __dirname+'/../db.env' });
+dotenv.config({ path: __dirname+'/../.env.database' });
 
 class App {
 
@@ -38,7 +38,7 @@ class App {
             username: process.env.UNAME,
             password: process.env.PASSWORD,
             database: process.env.DATABASE_NAME,
-            entities: [Admin]
+            entities: [model.Admin]
           });
     }
 

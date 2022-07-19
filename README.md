@@ -56,6 +56,9 @@
       <a href="#built-with">Built with</a>
     </li>
     <li>
+      <a href="#implementation">Implementation</a>
+    </li>
+    <li>
       <a href="#contact">Contact</a>
     </li>
   </ol>
@@ -70,11 +73,21 @@
 
 # Built with
 
+## Platforms
+
 |Components |Platforms | Version |
 | :---      |   :---            | :---            |
 |Database|[![PostgreSQL][postgresql]][postgresql-url]| 14.4 |
 |Web Server| [![NodeJS][nodejs]][nodejs-url]| 16.15.0 |
 |Web Application|[![ExpressJS][Expressjs]][Expressjs-url]| 4.18.1 |
+
+## Environment
+
+|| |
+| :---      |   :---            | 
+|Operation system|*Window 11*|
+|IDE|*No*|
+
 
 ## Initialize PostgreSQL
 
@@ -83,9 +96,34 @@
     - Open `File` &#8594; `Preferences` &#8594;  `Paths` &#8594; `Binary Paths`
     - Find `PostgreSQL 14` (your PostgreSQL version) and paste the binary path (e.g. `C:\Program Files\PostgreSQL\14\bin`) to that box 
     
-# Execution
+# Implementation
 
+## Database
 
+1. Open `pgadmin 4` in your window.
+
+2. Create a database name `webstore`, open `Query tool`.
+
+3. Copy DDL code from `database/ddl.sql` file and paste to `Query tool`.
+
+4. Execute the DDL code.
+
+## Web Application
+
+1. Run `$ npm install`
+2. Create `.env.database` file in root level
+
+3. Fill the code like below to `.env.database` file:
+    ```
+    HOST="localhost"
+    PORT=5432
+    UNAME="postgres"
+    PASSWORD="root"
+    DATABASE_NAME="webstore"
+    ```
+4. Run `$ npm start`
+
+Now you can call API from your frontend appication or `Postman`.
 
 # Contact
 *Duy Tinh Nguyen - [@xdtn7](https://www.linkedin.com/in/xdtn7/) - duytinhnguyenforwork@gmail.com*
