@@ -1,9 +1,9 @@
-import { Admin } from "../models/crmModel";
+import { Admin } from "../models/mainModel";
 import { Request, Response } from 'express';
 
 // const Contact = mongoose.model('Contact', ContactSchema);
 
-export class ContactController{
+export class AdminController{
 
     public async addNewAdmin (req: Request, res: Response) {
         let newAdmin = new Admin();

@@ -7,11 +7,6 @@
     "requestTm" : "181530"
     },
     "body" : {
-    "name": "Thegioididong",
-    "description": "Bigest Vietnamese retailer",
-    "catagory": "Electronic Accessories",
-    "address": "29/11 Nhat Chi Mai Dist.Tan Binh",
-    "contact_number": "0905855954",
-    "contact_email": "mwg@mwgmail.com"
+        "resultCd": 0
     }
 }

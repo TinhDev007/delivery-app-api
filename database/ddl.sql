@@ -18,10 +18,10 @@ CREATE TABLE merchant (
     description TEXT,
     category TEXT,
     address TEXT,
-    contact_number TEXT,
-    contact_email TEXT,
-    logo
-    typical_image
+    phone TEXT,
+    email TEXT,
+    logo TEXT,
+    image TEXT
 
 );
 
@@ -33,9 +33,9 @@ CREATE TABLE product (
     group TEXT,
     price INTEGER,
     quantity TEXT,
-    contact email TEXT,
-    logo
-    image
+    email TEXT,
+    logo TEXT,
+    image TEXT
 
 );
 
@@ -43,7 +43,7 @@ CREATE TABLE catagory (
 
     id BIGSERIAL,
     name TEXT,
-    image
+    image TEXT
 
 );
 

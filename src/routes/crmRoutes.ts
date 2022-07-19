@@ -1,10 +1,10 @@
 import {Request, Response} from "express";
-import { ContactController } from "../controllers/crmController";
+import { AdminController } from "../controllers/crmController";
 
 
 
 export class Routes {
-    public contactController: ContactController = new ContactController();
+    public contactController: AdminController = new AdminController();
 
     public routes(app): void{
         app.route('/')

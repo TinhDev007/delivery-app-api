@@ -1,16 +1,15 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { Routes } from "./routes/crmRoutes";
+import { Routes } from "./routes/mainRoutes";
 import { Connection, createConnection } from "typeorm";
-import * as model from "./models/crmModel";
+import * as model from "./models/mainModel";
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname+'/../.env.database' });
 
 class App {
 
     public app: express.Application;
-    public routePrv: Routes = new Routes();
-    // public mongoUrl: string = 'mongodb://localhost/CRMdb'; 
+    public routePrv: Routes = new Routes(); 
     public connection: Connection;
 
     constructor(){
@@ -38,7 +37,7 @@ class App {
             username: process.env.UNAME,
             password: process.env.PASSWORD,
             database: process.env.DATABASE_NAME,
-            entities: [model.Admin]
+            entities: [model.Admin, model.Merchant]
           });
     }
 
