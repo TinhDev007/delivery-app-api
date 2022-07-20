@@ -34,15 +34,6 @@ export class Merchant extends BaseEntity {
     image!: string;
 
     async insertOne(body: any) {
-        // this.name = body.name;
-        // this.description = body.description;
-        // this.category = body.category;
-        // this.address = body.address;
-        // this.phone = body.phone;
-        // this.email = body.email;
-        // this.logo = body.logo;
-        // this.image = body.image;
-        await this.save();
 
         return await Merchant.createQueryBuilder(thisEntity)
             .insert()
