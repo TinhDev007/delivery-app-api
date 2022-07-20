@@ -15,14 +15,14 @@ export class Category extends BaseEntity {
     @Column()
     image!: string;
 
-    async insertOne(body: any) {
-        console.log('OK');
+    async insertOne(body: any, files: any) {
+        
         return await Category.createQueryBuilder(thisEntity)
         .insert()
         .values([
             {
                 name : body.name,
-                image : body.image
+                image : `data:${files[0].mimetype};base64,${files[0].buffer.toString('base64')}`
             }
         ])
         .returning('*')
@@ -35,12 +35,12 @@ export class Category extends BaseEntity {
             .getMany();
     }
 
-    async updateOne(body: any, id: number) {
+    async updateOne(body: any, files: any, id: number) {
         return await Category.createQueryBuilder(thisEntity)
             .update()
             .set({
                 name: body.name,
-                image: body.image
+                image: `data:${files[0].mimetype};base64,${files[0].buffer.toString('base64')}`
             })
             .where(`${thisEntity}.id = :id`, { id: id })
             .returning('*')

@@ -48,7 +48,7 @@ class App {
             username: process.env.UNAME,
             password: process.env.PASSWORD,
             database: process.env.DATABASE_NAME,
-            entities: [model.Admin, model.Merchant]
+            entities: [model.Admin, model.Merchant, model.Category]
           });
     }
 

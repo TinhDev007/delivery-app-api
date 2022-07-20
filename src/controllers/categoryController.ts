@@ -8,7 +8,7 @@ export class CategoryController{
         try {
             
             res.status(Http.OK.status).send({
-                data: (await new Category().insertOne(req.body))["raw"]
+                data: (await new Category().insertOne(req.body, req.files))["raw"][0]
             });
         } catch (error) {
             res.status(Http.Failed.status).send(Http.Failed);
@@ -31,8 +31,9 @@ export class CategoryController{
                 res.status(Http.OK.status).send({
                     data: (await new Category().updateOne(
                         req.body, 
+                        req.files,
                         parseInt(req.params.category_id))
-                        )["raw"]
+                        )["raw"][0]
                 });
             else
                 throw Http.BadRequest;

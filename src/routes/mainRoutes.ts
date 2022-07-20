@@ -34,16 +34,15 @@ export class Routes {
         app.post('/merchants/create',  this.MerchantController.createNewMerchant, upload.single('image'));
         app.route('/merchants')
         .get(this.MerchantController.readAllMerchant);
+        app.put('/merchants/:merchant_id', this.MerchantController.updateOneMerchant, upload.single('image'))
         app.route('/merchants/:merchant_id')
-        .put(this.MerchantController.updateOneMerchant)
         .delete(this.MerchantController.deleteOneMerchant);  
 
-        app.route('/categories/create')
-        .post(this.CategoryController.createNewCategory);
+        app.post('/categories/create', this.CategoryController.createNewCategory, upload.single('image'));
         app.route('/categories')
         .get(this.CategoryController.readAllCategory);
+        app.put('/categories/:category_id', this.CategoryController.updateOneCategory, upload.single('image'))
         app.route('/categories/:category_id')
-        .put(this.CategoryController.updateOneCategory)
         .delete(this.CategoryController.deleteOneCategory);
 
     }
