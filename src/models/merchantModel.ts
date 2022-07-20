@@ -1,64 +1,77 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
-@Entity({ name: "merchant" })
+const thisEntity = "merchant";  //ENTITY NAME
+
+
+@Entity({ name: thisEntity})
 export class Merchant extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id!: number;
 
-  @Column()
-  name!: string;
+    @PrimaryGeneratedColumn()
+    id!: number;
 
-  @Column()
-  description!: string;
+    @Column()
+    name!: string;
 
-  @Column()
-  category!: string;
+    @Column()
+    description!: string;
 
-  @Column()
-  address!: string;
+    @Column()
+    category!: string;
 
-  @Column()
-  phone!: string;
+    @Column()
+    address!: string;
 
-  @Column()
-  email!: string;
+    @Column()
+    phone!: string;
 
-  @Column()
-  logo!: string;
+    @Column()
+    email!: string;
 
-  @Column()
-  image!: string;
+    @Column()
+    logo!: string;
 
+    @Column()
+    image!: string;
 
-  /*
-   * The following methods used to be in the PersonRepositoy class, but are now
-   * in the entity instead.
-   */
-
-//   static findByName(fullname: string) {
-//     return this.createQueryBuilder("admin")
-//       .where("admin.fullname = :fullname", { fullname })
-//       .getOne();
-//   }
-
-    create(body: any) {
-            this.name = body.name;
-            this.description = body.description;
-            this.category = body.category;
-            this.address = body.address;
-            this.phone = body.phone;
-            this.email = body.email;
-            this.logo = body.logo;
-            this.image = body.image;
-            this.save();
+    async insertOne(body: any) {
+        this.name = body.name;
+        this.description = body.description;
+        this.category = body.category;
+        this.address = body.address;
+        this.phone = body.phone;
+        this.email = body.email;
+        this.logo = body.logo;
+        this.image = body.image;
+        await this.save();
+    }
+    
+    async selectAll() {
+        return await Merchant.createQueryBuilder(thisEntity)
+            .orderBy(`${thisEntity}.id`, 'ASC')
+            .getMany();
     }
 
-    updateName(name: string) {
-        const id = this.id;
-        return Merchant.createQueryBuilder("merchant")
-        .update()
-        .set({ name: name })
-        .where("merchant.id = :id", { id })
+    async updateOne(body: any) {
+        return await Merchant.createQueryBuilder(thisEntity)
+            .update()
+            .set({
+                name: body.name,
+                description: body.description,
+                category: body.category,
+                address: body.address,
+                phone: body.phone,
+                email: body.email,
+                logo: body.logo,
+                image: body.image
+            })
+            .where(`${thisEntity}.id = :id`, { id: body.id })
+            .execute();
+    }
+
+    async deleteOne(id: number) {
+        return await Merchant.createQueryBuilder(thisEntity)
+        .delete()
+        .where(`${thisEntity}.id = :id`, { id: id })
         .execute();
     }
 }

@@ -30,7 +30,7 @@ CREATE TABLE product (
     id BIGSERIAL,
     name TEXT,
     description TEXT,
-    group TEXT,
+    prod_group TEXT,
     price INTEGER,
     quantity TEXT,
     email TEXT,
