@@ -7,8 +7,10 @@ export class MerchantController{
 
     public async createNewMerchant (req: Request, res: Response) {
         try {
-            new Merchant().insertOne(req.body);
-            res.status(Http.OK.status).send(Http.OK);
+            
+            res.status(Http.OK.status).send({
+                data: (await new Merchant().insertOne(req.body))["raw"][0]
+            });
         } catch (error) {
             res.status(Http.Failed.status).send(Http.Failed);
         }
@@ -17,9 +19,7 @@ export class MerchantController{
     public async readAllMerchant (req: Request, res: Response){
         try {
             res.status(Http.OK.status).send({
-                data: await new Merchant().selectAll(),
-                status: Http.OK.status,
-                statusText: Http.OK.statusText
+                data: await new Merchant().selectAll()
             });
         } catch (error) {
             res.status(Http.Failed.status).send(Http.Failed);
