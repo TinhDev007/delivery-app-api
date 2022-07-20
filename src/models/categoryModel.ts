@@ -16,9 +16,17 @@ export class Category extends BaseEntity {
     image!: string;
 
     async insertOne(body: any) {
-        this.name = body.name;
-        this.image = body.image;
-        await this.save();
+        console.log('OK');
+        return await Category.createQueryBuilder(thisEntity)
+        .insert()
+        .values([
+            {
+                name : body.name,
+                image : body.image
+            }
+        ])
+        .returning('*')
+        .execute();
     }
     
     async selectAll() {
@@ -27,14 +35,15 @@ export class Category extends BaseEntity {
             .getMany();
     }
 
-    async updateOne(body: any) {
+    async updateOne(body: any, id: number) {
         return await Category.createQueryBuilder(thisEntity)
             .update()
             .set({
                 name: body.name,
                 image: body.image
             })
-            .where(`${thisEntity}.id = :id`, { id: body.id })
+            .where(`${thisEntity}.id = :id`, { id: id })
+            .returning('*')
             .execute();
     }
 

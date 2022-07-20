@@ -73,6 +73,7 @@ export class Merchant extends BaseEntity {
                 image: body.image
             })
             .where(`${thisEntity}.id = :id`, { id: id })
+            .returning('*')
             .execute();
     }
 
