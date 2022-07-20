@@ -14,14 +14,14 @@ export class Routes {
             });
         });
         
-        app.route('/mcre')
+        app.route('/merchants/create')
         .post(this.MerchantController.createNewMerchant);
-        app.route('/mvie')
-        .post(this.MerchantController.readAllMerchant);
-        app.route('/mudt')
-        .post(this.MerchantController.updateOneMerchant);
-        app.route('/mdel')
-        .post(this.MerchantController.deleteOneMerchant);
+        app.route('/merchants')
+        .get(this.MerchantController.readAllMerchant);
+        app.route('/merchants/:merchant_id')
+        .put(this.MerchantController.updateOneMerchant)
+        .delete(this.MerchantController.deleteOneMerchant);
+        
 
         // app.route('/ccre')
         // .post(this.MerchantController.createNewMerchant);

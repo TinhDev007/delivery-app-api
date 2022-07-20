@@ -51,7 +51,7 @@ export class Merchant extends BaseEntity {
             .getMany();
     }
 
-    async updateOne(body: any) {
+    async updateOne(body: any, id: number) {
         return await Merchant.createQueryBuilder(thisEntity)
             .update()
             .set({
@@ -64,7 +64,7 @@ export class Merchant extends BaseEntity {
                 logo: body.logo,
                 image: body.image
             })
-            .where(`${thisEntity}.id = :id`, { id: body.id })
+            .where(`${thisEntity}.id = :id`, { id: id })
             .execute();
     }
 

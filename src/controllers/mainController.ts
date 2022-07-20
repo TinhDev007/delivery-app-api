@@ -28,23 +28,30 @@ export class MerchantController{
 
     public async updateOneMerchant (req: Request, res: Response){
         try {
-            await new Merchant().updateOne(req.body);
+            if(Number.isInteger(parseInt(req.params.merchant_id)))
+                await new Merchant().updateOne(req.body, parseInt(req.params.merchant_id));
+            else
+                throw Http.BadRequest;
+            
             res.status(Http.OK.status).send(Http.OK);
         } catch (error) {
-            res.status(Http.Failed.status).send(Http.Failed);
+            if(error.status==Http.BadRequest.status)
+                res.status(Http.BadRequest.status).send(Http.BadRequest);
+            else
+                res.status(Http.Failed.status).send(Http.Failed);
         }
     }
 
     public async deleteOneMerchant (req: Request, res: Response) {
         try {
-            if(req.body.id)
-                await new Merchant().deleteOne(req.body.id);
+            if(Number.isInteger(parseInt(req.params.merchant_id)))
+                await new Merchant().deleteOne(parseInt(req.params.merchant_id));
             else
                 throw Http.BadRequest;
                 res.status(Http.OK.status).send(Http.OK);
         } catch (error) {
             if(error.status==Http.BadRequest.status)
-                res.status(Http.OK.status).send(Http.OK);
+                res.status(Http.BadRequest.status).send(Http.BadRequest);
             else
                 res.status(Http.Failed.status).send(Http.Failed);
         }
