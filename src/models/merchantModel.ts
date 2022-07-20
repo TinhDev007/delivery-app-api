@@ -33,8 +33,22 @@ export class Merchant extends BaseEntity {
     @Column()
     image!: string;
 
-    async insertOne(body: any) {
+    async insertOne(body: any, files: any) {
+        var flogo: string = "";
+        var fimage: string = "";
 
+        for(let file of files){
+            switch (file.fieldname) {
+                case 'image':
+                    fimage = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+                    break;
+                case 'logo':
+                    flogo = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+                    break;
+                default:
+                    break;
+            }
+        }
         return await Merchant.createQueryBuilder(thisEntity)
             .insert()
             .values([
@@ -45,8 +59,8 @@ export class Merchant extends BaseEntity {
                     address : body.address,
                     phone : body.phone,
                     email : body.email,
-                    logo : body.logo,
-                    image : body.image
+                    logo : flogo,
+                    image : fimage
                 }
             ])
             .returning('*')
@@ -59,7 +73,23 @@ export class Merchant extends BaseEntity {
             .getMany();
     }
 
-    async updateOne(body: any, id: number) {
+    async updateOne(body: any, files: any, id: number) {
+        var flogo: string = "";
+        var fimage: string = "";
+
+        for(let file of files){
+            switch (file.fieldname) {
+                case 'image':
+                    fimage = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+                    break;
+                case 'logo':
+                    flogo = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         return await Merchant.createQueryBuilder(thisEntity)
             .update()
             .set({
@@ -69,8 +99,8 @@ export class Merchant extends BaseEntity {
                 address: body.address,
                 phone: body.phone,
                 email: body.email,
-                logo: body.logo,
-                image: body.image
+                logo: flogo,
+                image: fimage
             })
             .where(`${thisEntity}.id = :id`, { id: id })
             .returning('*')

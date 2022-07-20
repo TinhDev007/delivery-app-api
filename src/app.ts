@@ -4,6 +4,9 @@ import { Routes } from "./routes/mainRoutes";
 import { Connection, createConnection } from "typeorm";
 import * as model from "./models/mainModel";
 import * as dotenv from "dotenv";
+// import multer = require("multer");
+const multer = require('multer');
+const upload = multer();
 dotenv.config({ path: __dirname+'/../.env.database' });
 
 class App {
@@ -21,10 +24,17 @@ class App {
     }
     
     private config(): void{
-        this.app.use(bodyParser.json());
+        // for parsing application/json
+        this.app.use(bodyParser.json({limit: '50mb'}));
+        // for parsing application/xwww-form-urlencoded
         this.app.use(bodyParser.urlencoded({
-            extended: true
+            limit: '50mb',
+            extended: false
         }));
+        // for parsing multipart/form-data
+        this.app.use(upload.any());
+        this.app.use(express.static('public'));
+        //Handling CORS issue
         this.app.all('/*', this.setupCORS);
     }
 

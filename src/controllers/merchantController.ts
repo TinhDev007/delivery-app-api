@@ -2,31 +2,14 @@ import { Merchant } from "../models/mainModel";
 import { Request, Response } from 'express';
 import { Http } from "./httpResponse";
 
+
 export class MerchantController {
-    public async blobToBase64(blob) {
-        return new Promise((resolve, _) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.readAsDataURL(blob);
-        });
-    }
 
     public async createNewMerchant(req: Request, res: Response) {
         try {
-
-            console.log(req);
-            
-                // .then(r => r.blob())
-                // .then(
-                //     blobFile => new File([blobFile], "fileNameGoesHere", { type: "image/png" })
-                // );
-
-            // console.log('here' + file);
-            
-            // res.status(Http.OK.status).send({
-            //     data: (await new Merchant().insertOne(req.body))["raw"][0]
-            // });
-            res.status(Http.OK.status).send(Http.OK);
+            res.status(Http.OK.status).send({
+                data: (await new Merchant().insertOne(req.body, req.files))["raw"][0]
+            });
         } catch (error) {
             res.status(Http.Failed.status).send(Http.Failed);
         }
@@ -44,10 +27,13 @@ export class MerchantController {
 
     public async updateOneMerchant(req: Request, res: Response) {
         try {
+            console.log(req.files);
             if (Number.isInteger(parseInt(req.params.merchant_id)))
+                
                 res.status(Http.OK.status).send({
                     data: (await new Merchant().updateOne(
                         req.body,
+                        req.files,
                         parseInt(req.params.merchant_id)
                     ))["raw"][0]
                 });
