@@ -28,13 +28,16 @@ export class CategoryController{
     public async updateOneCategory (req: Request, res: Response){
         try {
             if(Number.isInteger(parseInt(req.params.category_id)))
-                await new Category().updateOne(req.body, parseInt(req.params.category_id));
+                res.status(Http.OK.status).send({
+                    data: (await new Category().updateOne(
+                        req.body, 
+                        parseInt(req.params.category_id))
+                        )["raw"]
+                });
             else
                 throw Http.BadRequest;
             
-            res.status(Http.OK.status).send({
-                data: (await new Category().insertOne(req.body))["raw"]
-            });
+            
         } catch (error) {
             if(error.status==Http.BadRequest.status)
                 res.status(Http.BadRequest.status).send(Http.BadRequest);

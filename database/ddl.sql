@@ -39,7 +39,7 @@ CREATE TABLE product (
 
 );
 
-CREATE TABLE catagory (
+CREATE TABLE category (
 
     id BIGSERIAL,
     name TEXT,
