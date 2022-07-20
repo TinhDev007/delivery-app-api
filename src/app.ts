@@ -19,12 +19,13 @@ class App {
 
         this.pgSetup(); 
     }
-
+    
     private config(): void{
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({
             extended: false
         }));
+        this.app.all('/*', this.setupCORS);
     }
 
 
@@ -39,6 +40,17 @@ class App {
             database: process.env.DATABASE_NAME,
             entities: [model.Admin, model.Merchant]
           });
+    }
+
+    private setupCORS(req, res, next) {
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-type,Accept,X-Access-Token,X-Key');
+        res.header('Access-Control-Allow-Origin', '*');
+        if (req.method === 'OPTIONS') {
+            res.status(200).end();
+        } else {
+            next();
+        }
     }
 
 }

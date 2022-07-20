@@ -44,6 +44,7 @@ export class MerchantController{
 
     public async deleteOneMerchant (req: Request, res: Response) {
         try {
+            
             if(Number.isInteger(parseInt(req.params.merchant_id)))
                 await new Merchant().deleteOne(parseInt(req.params.merchant_id));
             else
