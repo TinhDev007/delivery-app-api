@@ -22,7 +22,7 @@ export class Category extends BaseEntity {
     imagetype!: string;
 
     async insertOne(body: any, files: any) {
-        console.log(files[0].buffer);
+ 
         return await Category.createQueryBuilder(thisEntity)
         .insert()
         .values([

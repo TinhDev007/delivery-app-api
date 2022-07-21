@@ -27,13 +27,13 @@ export class ProductController {
 
     public async updateOneProduct(req: Request, res: Response) {
         try {
-            if (Number.isInteger(parseInt(req.params.merchant_id)))
+            if (Number.isInteger(parseInt(req.params.product_id)))
                 
                 res.status(Http.OK.status).send({
                     data: (await new Product().updateOne(
                         req.body,
                         req.files,
-                        parseInt(req.params.merchant_id)
+                        parseInt(req.params.product_id)
                     ))["raw"][0]
                 });
             else
@@ -50,8 +50,8 @@ export class ProductController {
     public async deleteOneProduct(req: Request, res: Response) {
         try {
 
-            if (Number.isInteger(parseInt(req.params.merchant_id)))
-                await new Product().deleteOne(parseInt(req.params.merchant_id));
+            if (Number.isInteger(parseInt(req.params.product_id)))
+                await new Product().deleteOne(parseInt(req.params.product_id));
             else
                 throw Http.BadRequest;
             res.status(Http.OK.status).send(Http.OK);
