@@ -50,6 +50,8 @@ export class Routes {
         app.post('/products/create', this.ProductController.createNewProduct, upload.single('image'));
         app.route('/products')
         .get(this.ProductController.readAllProduct);
+        app.route('/products/:merchant_id')
+        .get(this.ProductController.readAllProductByMerchantId);
         app.put('/products/:product_id', this.ProductController.updateOneProduct, upload.single('image'))
         app.route('/products/:product_id')
         .delete(this.ProductController.deleteOneProduct);

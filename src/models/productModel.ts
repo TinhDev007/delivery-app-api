@@ -95,6 +95,14 @@ export class Product extends BaseEntity {
             .execute();
     }
 
+    async selectByMerchantid(merchantid: number) {
+        return await Product.createQueryBuilder(thisEntity)
+            .select(filterForm)
+            .where(`${thisEntity}.id = :id`, { id: merchantid })
+            .orderBy(`${thisEntity}.id`, 'ASC')
+            .execute();
+    }
+
     async updateOne(body: any, files: any, id: number) {
         var flogo: Buffer;
         var fimage: Buffer;

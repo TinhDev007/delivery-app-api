@@ -24,6 +24,20 @@ export class ProductController {
             res.status(Http.Failed.status).send(Http.Failed);
         }
     }
+    
+    public async readAllProductByMerchantId(req: Request, res: Response) {
+        try {
+            if (Number.isInteger(parseInt(req.params.merchant_id)))
+                res.status(Http.OK.status).send({
+                    data: await new Product().selectByMerchantid(parseInt(req.params.merchant_id))
+                });
+            else
+                throw Http.BadRequest;
+
+        } catch (error) {
+            res.status(Http.Failed.status).send(Http.Failed);
+        }
+    }
 
     public async updateOneProduct(req: Request, res: Response) {
         try {
