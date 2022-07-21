@@ -1,14 +1,14 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
-const thisEntity = "merchant";  //ENTITY NAME
+const thisEntity = "product";  //ENTITY NAME
 const filterForm = `
-                    id, name, description, category, address, phone, email, 
+                    id, name, description, prod_group, price, quantity, email,
                     CONCAT('data:',imagetype,';base64,', encode(image, 'base64')) AS image,
                     CONCAT('data:',logotype,';base64,', encode(logo, 'base64')) AS logo
                     `;
 
 @Entity({ name: thisEntity})
-export class Merchant extends BaseEntity {
+export class Product extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id!: number;
@@ -20,13 +20,13 @@ export class Merchant extends BaseEntity {
     description!: string;
 
     @Column()
-    category!: string;
+    prod_group!: string;
 
     @Column()
-    address!: string;
+    price!: number;
 
     @Column()
-    phone!: string;
+    quantity!: number;
 
     @Column()
     email!: string;
@@ -34,14 +34,17 @@ export class Merchant extends BaseEntity {
     @Column({ type: "bytea", nullable: false })
     logo!: Buffer;
 
-    @Column()
-    logotype!: string;
-
     @Column({ type: "bytea", nullable: false })
     image!: Buffer;
 
     @Column()
+    logotype!: string;
+
+    @Column()
     imagetype!: string;
+
+    @Column()
+    merchantid!: number;
 
     async insertOne(body: any, files: any) {
         var flogo: Buffer;
@@ -49,18 +52,6 @@ export class Merchant extends BaseEntity {
         var flogotype: string;
         var fimagetype: string;
 
-        // for(let file of files){
-        //     switch (file.fieldname) {
-        //         case 'image':
-        //             fimage = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-        //             break;
-        //         case 'logo':
-        //             flogo = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // }
         for(let file of files){
             switch (file.fieldname) {
                 case 'image':
@@ -75,28 +66,30 @@ export class Merchant extends BaseEntity {
                     break;
             }
         }
-        return await Merchant.createQueryBuilder(thisEntity)
+
+        return await Product.createQueryBuilder(thisEntity)
             .insert()
             .values([
                 {
                     name: body.name,
                     description: body.description,
-                    category: body.category,
-                    address: body.address,
-                    phone: body.phone,
+                    prod_group: body.prod_group,
+                    price: parseInt(body.price),
+                    quantity: parseInt(body.quantity),
                     email: body.email,
-                    logo: flogo,
-                    image: fimage,
                     logotype: flogotype,
-                    imagetype: fimagetype
+                    logo: flogo,
+                    imagetype: fimagetype,
+                    image: fimage,
+                    merchantid: parseInt(body.merchantId)
                 }
             ])
-            .returning(filterForm)
+            .returning('*')
             .execute();
     }
     
     async selectAll() {
-        return await Merchant.createQueryBuilder(thisEntity)
+        return await Product.createQueryBuilder(thisEntity)
             .select(filterForm)
             .orderBy(`${thisEntity}.id`, 'ASC')
             .execute();
@@ -108,18 +101,6 @@ export class Merchant extends BaseEntity {
         var flogotype: string;
         var fimagetype: string;
 
-        // for(let file of files){
-        //     switch (file.fieldname) {
-        //         case 'image':
-        //             fimage = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-        //             break;
-        //         case 'logo':
-        //             flogo = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // }
         for(let file of files){
             switch (file.fieldname) {
                 case 'image':
@@ -135,19 +116,20 @@ export class Merchant extends BaseEntity {
             }
         }
 
-        return await Merchant.createQueryBuilder(thisEntity)
+        return await Product.createQueryBuilder(thisEntity)
             .update()
             .set({
                 name: body.name,
                 description: body.description,
-                category: body.category,
-                address: body.address,
-                phone: body.phone,
+                prod_group: body.prod_group,
+                price: parseInt(body.price),
+                quantity: parseInt(body.quantity),
                 email: body.email,
-                logo: flogo,
-                image: fimage,
                 logotype: flogotype,
-                imagetype: fimagetype
+                logo: flogo,
+                imagetype: fimagetype,
+                image: fimage,
+                merchantid: parseInt(body.merchantId)
             })
             .where(`${thisEntity}.id = :id`, { id: id })
             .returning(filterForm)
@@ -155,7 +137,7 @@ export class Merchant extends BaseEntity {
     }
 
     async deleteOne(id: number) {
-        return await Merchant.createQueryBuilder(thisEntity)
+        return await Product.createQueryBuilder(thisEntity)
         .delete()
         .where(`${thisEntity}.id = :id`, { id: id })
         .execute();

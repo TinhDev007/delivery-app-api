@@ -2,7 +2,8 @@ import {Application, Request, Response} from "express";
 import multer = require("multer");
 import { 
     MerchantController, 
-    CategoryController 
+    CategoryController,
+    ProductController
 } from "../controllers/mainController";
 
 
@@ -21,6 +22,7 @@ export class Routes {
 
     public MerchantController: MerchantController = new MerchantController();
     public CategoryController: CategoryController = new CategoryController();
+    public ProductController: ProductController = new ProductController();
 
     public routes(app: Application): void{
         app.route('/')
@@ -44,6 +46,13 @@ export class Routes {
         app.put('/categories/:category_id', this.CategoryController.updateOneCategory, upload.single('image'))
         app.route('/categories/:category_id')
         .delete(this.CategoryController.deleteOneCategory);
+
+        app.post('/products/create', this.ProductController.createNewProduct, upload.single('image'));
+        app.route('/products')
+        .get(this.ProductController.readAllProduct);
+        app.put('/products/:product_id', this.ProductController.updateOneProduct, upload.single('image'))
+        app.route('/products/:product_id')
+        .delete(this.ProductController.deleteOneProduct);
 
     }
 }
