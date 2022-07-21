@@ -84,7 +84,7 @@ export class Product extends BaseEntity {
                     merchantid: parseInt(body.merchantId)
                 }
             ])
-            .returning('*')
+            .returning(filterForm)
             .execute();
     }
     
