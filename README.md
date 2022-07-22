@@ -79,7 +79,7 @@ You can restore the database of this system from the file in this path: `deliver
     PASSWORD="root"
     DATABASE_NAME="webstore"
     ```
-- Run `$ npm run dev`
+- Run `$ npm run prod`
 
 [contributors-shield]: https://img.shields.io/github/contributors/TinhDev007/delivery-app-api.svg?style=for-the-badge
 [contributors-url]: https://github.com/TinhDev007/delivery-app-api/graphs/contributors
