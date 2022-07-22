@@ -1,24 +1,4 @@
-[projectname]:  delivery-app-api
-[projectauthor]: TinhDev007
-[linkedin]: xdtn7
 
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
---- 
 
 <!-- PROJECT LOGO -->
 <br />
@@ -31,15 +11,6 @@
 
   <p align="center">
     Backend API for delivery App.
-    <br />
-    <a href=""><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="">View Demo</a>
-    ·
-    <a href="">Report Bug</a>
-    ·
-    <a href="">Request Feature</a>
   </p>
 </div>
 
@@ -57,9 +28,6 @@
     </li>
     <li>
       <a href="#implementation">Implementation</a>
-    </li>
-    <li>
-      <a href="#contact">Contact</a>
     </li>
   </ol>
 </details>
@@ -81,39 +49,29 @@
 |Web Server| [![NodeJS][nodejs]][nodejs-url]| 16.15.0 |
 |Web Application|[![ExpressJS][Expressjs]][Expressjs-url]| 4.18.1 |
 
-## Environment
-
-|| |
-| :---      |   :---            | 
-|Operation system|*Window 11*|
-|IDE|*No*|
-
-
-## Initialize PostgreSQL
-
-- Install PostgreSQL
-- To enable `Restore` database, correct the Binary Path in the Preferences dialog
-    - Open `File` &#8594; `Preferences` &#8594;  `Paths` &#8594; `Binary Paths`
-    - Find `PostgreSQL 14` (your PostgreSQL version) and paste the binary path (e.g. `C:\Program Files\PostgreSQL\14\bin`) to that box 
-    
 # Implementation
 
 ## Database
 
-1. Open `pgadmin 4` in your window.
+You can restore the database of this system from the file in this path: `delivery-app-api/database/ddl_for_restore.sql`. If you don't know how to restore, do the following steps:
 
-2. Create a database name `webstore`, open `Query tool`.
+- Install PostgreSQL (choose port `5432`)
+- Open Pgadmin 4 (in port: `5050`)
+- To enable `Restore` database, you have to correct the Binary Path in the Preferences dialog first ([more details](https://dba.stackexchange.com/questions/149169/binary-path-in-the-pgadmin-preferences)):
+    - Open `File` &#8594; `Preferences` &#8594;  `Paths` &#8594; `Binary Paths`
+    - Find `PostgreSQL 14` (your PostgreSQL version) and paste the binary path (e.g. `C:\Program Files\PostgreSQL\14\bin`) to that box 
 
-3. Copy DDL code from `database/ddl.sql` file and paste to `Query tool`.
+- Create a database name `webstore`.
 
-4. Execute the DDL code.
+- Restore `webstore` database with source code from this path: `delivery-app-api/database/ddl_for_restore.sql`.
 
+(You can also paste the content in `delivery-app-api/database/ddl_in_text.sql` to `Query Tool` of `webstore` database to restore the database)
 ## Web Application
 
-1. Run `$ npm install`
-2. Create `.env.database` file in root level
+- Run `$ npm install`
+- Create `.env.database` file in root level
 
-3. Fill the code like below to `.env.database` file:
+- Fill the code like below to `.env.database` file:
     ```
     HOST="localhost"
     PORT=5432
@@ -121,15 +79,7 @@
     PASSWORD="root"
     DATABASE_NAME="webstore"
     ```
-4. Run `$ npm start`
-
-Now you can call API from your frontend appication or `Postman`.
-
-# Contact
-*Duy Tinh Nguyen - [@xdtn7](https://www.linkedin.com/in/xdtn7/) - duytinhnguyenforwork@gmail.com*
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+- Run `$ npm run dev`
 
 [contributors-shield]: https://img.shields.io/github/contributors/TinhDev007/delivery-app-api.svg?style=for-the-badge
 [contributors-url]: https://github.com/TinhDev007/delivery-app-api/graphs/contributors

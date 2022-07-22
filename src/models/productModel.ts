@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 const thisEntity = "product";  //ENTITY NAME
 const filterForm = `
-                    id, name, description, prod_group, price, quantity, merchantid,
+                    id, name, description, prod_group, price, quantity, merchantid::TEXT,
                     CONCAT('data:',imagetype,';base64,', encode(image, 'base64')) AS image,
                     CONCAT('data:',logotype,';base64,', encode(logo, 'base64')) AS logo
                     `;

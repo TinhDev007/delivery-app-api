@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 const thisEntity = "product_group";  //ENTITY NAME
 const filterForm = `
-                    id, name, merchantid
+                    id, name, merchantid::TEXT
                     `;
 
 @Entity({ name: thisEntity})
