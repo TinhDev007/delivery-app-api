@@ -47,7 +47,6 @@
 | :---      |   :---            | :---            |
 |Database|[![PostgreSQL][postgresql]][postgresql-url]| 14.4 |
 |Web Server| [![NodeJS][nodejs]][nodejs-url]| 16.15.0 |
-|Web Application|[![ExpressJS][Expressjs]][Expressjs-url]| 4.18.1 |
 
 # Implementation
 
