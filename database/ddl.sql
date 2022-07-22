@@ -35,12 +35,11 @@ CREATE TABLE product (
     prod_group TEXT,
     price INTEGER,
     quantity INTEGER,
-    email TEXT,
     logo bytea,
     logotype text,
     image bytea,
     imagetype text,
-    merchantId INTEGER
+    merchantid INTEGER
 
 );
 
@@ -50,6 +49,14 @@ CREATE TABLE category (
     name TEXT,
     imagetype TEXT,
     image bytea
+
+);
+
+CREATE TABLE product_group (
+
+    id BIGSERIAL,
+    name TEXT,
+    merchantid INTEGER
 
 );
 

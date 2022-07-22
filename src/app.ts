@@ -52,7 +52,8 @@ class App {
                 model.Admin, 
                 model.Merchant, 
                 model.Category,
-                model.Product
+                model.Product,
+                model.ProductGroup
             ]
           });
     }

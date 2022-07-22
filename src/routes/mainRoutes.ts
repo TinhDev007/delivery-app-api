@@ -3,7 +3,8 @@ import multer = require("multer");
 import { 
     MerchantController, 
     CategoryController,
-    ProductController
+    ProductController,
+    ProductGroupController
 } from "../controllers/mainController";
 
 
@@ -23,6 +24,7 @@ export class Routes {
     public MerchantController: MerchantController = new MerchantController();
     public CategoryController: CategoryController = new CategoryController();
     public ProductController: ProductController = new ProductController();
+    public ProductGroupController: ProductGroupController = new ProductGroupController();
 
     public routes(app: Application): void{
         app.route('/')
@@ -55,6 +57,15 @@ export class Routes {
         app.put('/products/:product_id', this.ProductController.updateOneProduct, upload.single('image'))
         app.route('/products/:product_id')
         .delete(this.ProductController.deleteOneProduct);
+
+        app.post('/productgroups/create', this.ProductGroupController.createNewProductGroup);
+        app.route('/productgroups')
+        .get(this.ProductGroupController.readAllProductGroup);
+        app.route('/productgroups/:merchant_id')
+        .get(this.ProductGroupController.readAllProductGroupByMerchantId);
+        app.put('/productgroups/:productgroup_id', this.ProductGroupController.updateOneProductGroup)
+        app.route('/productgroups/:productgroup_id')
+        .delete(this.ProductGroupController.deleteOneProductGroup);
 
     }
 }

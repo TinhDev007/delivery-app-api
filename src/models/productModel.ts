@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 const thisEntity = "product";  //ENTITY NAME
 const filterForm = `
-                    id, name, description, prod_group, price, quantity, email, merchantid,
+                    id, name, description, prod_group, price, quantity, merchantid,
                     CONCAT('data:',imagetype,';base64,', encode(image, 'base64')) AS image,
                     CONCAT('data:',logotype,';base64,', encode(logo, 'base64')) AS logo
                     `;
@@ -27,9 +27,6 @@ export class Product extends BaseEntity {
 
     @Column()
     quantity!: number;
-
-    @Column()
-    email!: string;
 
     @Column({ type: "bytea", nullable: false })
     logo!: Buffer;
@@ -76,12 +73,11 @@ export class Product extends BaseEntity {
                     prod_group: body.prod_group,
                     price: parseInt(body.price),
                     quantity: parseInt(body.quantity),
-                    email: body.email,
                     logotype: flogotype,
                     logo: flogo,
                     imagetype: fimagetype,
                     image: fimage,
-                    merchantid: parseInt(body.merchantId)
+                    merchantid: parseInt(body.merchantid)
                 }
             ])
             .returning(filterForm)
@@ -98,7 +94,7 @@ export class Product extends BaseEntity {
     async selectByMerchantid(merchantid: number) {
         return await Product.createQueryBuilder(thisEntity)
             .select(filterForm)
-            .where(`${thisEntity}.id = :id`, { id: merchantid })
+            .where(`${thisEntity}.merchantid = :id`, { id: merchantid })
             .orderBy(`${thisEntity}.id`, 'ASC')
             .execute();
     }
@@ -132,12 +128,11 @@ export class Product extends BaseEntity {
                 prod_group: body.prod_group,
                 price: parseInt(body.price),
                 quantity: parseInt(body.quantity),
-                email: body.email,
                 logotype: flogotype,
                 logo: flogo,
                 imagetype: fimagetype,
                 image: fimage,
-                merchantid: parseInt(body.merchantId)
+                merchantid: parseInt(body.merchantid)
             })
             .where(`${thisEntity}.id = :id`, { id: id })
             .returning(filterForm)
