@@ -27,14 +27,19 @@ export class CategoryController{
 
     public async updateOneCategory (req: Request, res: Response){
         try {
-            if(Number.isInteger(parseInt(req.params.category_id)))
-                res.status(Http.OK.status).send({
-                    data: (await new Category().updateOne(
-                        req.body, 
-                        req.files,
-                        parseInt(req.params.category_id))
-                        )["raw"][0]
-                });
+            if(Number.isInteger(parseInt(req.params.category_id))){
+                var data = (await new Category().updateOne(
+                    req.body, 
+                    req.files,
+                    parseInt(req.params.category_id))
+                    )["raw"][0];
+                if(data.length){
+                    res.status(Http.OK.status).send({
+                        data: data
+                    });
+                }
+                else throw Http.BadRequest;
+            }
             else
                 throw Http.BadRequest;
             
@@ -43,7 +48,10 @@ export class CategoryController{
             if(error.status==Http.BadRequest.status)
                 res.status(Http.BadRequest.status).send(Http.BadRequest);
             else
-                res.status(Http.Failed.status).send(Http.Failed);
+                // res.status(Http.Failed.status).send(Http.Failed);
+                res.status(Http.Failed.status).send({
+                    error: error
+                });
         }
     }
 
