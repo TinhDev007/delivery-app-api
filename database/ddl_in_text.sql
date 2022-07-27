@@ -2,11 +2,30 @@
 -- CREATE DATABASE webstore;
 
 -- Setup the database schema.
+-- CREATE EXTENSION pgcrypto;
+
+CREATE TABLE admin (
+
+    id BIGSERIAL,
+    email TEXT,
+
+    CONSTRAINT admin_email_unique UNIQUE (email)
+);
+
+CREATE TABLE client (
+
+    id BIGSERIAL,
+    email TEXT,
+
+    CONSTRAINT client_email_unique UNIQUE (email)
+
+);
 
 CREATE TABLE merchant (
 
     id BIGSERIAL,
     name TEXT,
+    password TEXT,
     description TEXT,
     category TEXT,
     address TEXT,

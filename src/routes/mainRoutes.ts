@@ -1,6 +1,8 @@
 import {Application, Request, Response} from "express";
 import multer = require("multer");
 import { 
+    AdminController,
+    UserController,
     MerchantController, 
     CategoryController,
     ProductController,
@@ -20,6 +22,8 @@ const upload = multer({ storage: storage })
 
 export class Routes {
 
+    public AdminController: AdminController = new AdminController();
+    public UserController: UserController = new UserController();
     public MerchantController: MerchantController = new MerchantController();
     public CategoryController: CategoryController = new CategoryController();
     public ProductController: ProductController = new ProductController();
@@ -29,11 +33,18 @@ export class Routes {
         app.route('/')
         .get((req: Request, res: Response) => {
             res.status(200).send({
-                message: 'Test API successfully!'
+                message: 'Backend API'
             });
         });
         
-        // app.route('/merchants/create')
+        //ADMIN
+        // app.post('/admins');
+
+        //USER
+        app.post('/users/signup', this.UserController.signUpNewUser);
+        app.post('/users/login', this.UserController.logInUser);
+
+        //MERCHANT
         app.post('/merchants/create',  this.MerchantController.createNewMerchant, upload.single('image'));
         app.route('/merchants')
         .get(this.MerchantController.readAllMerchant);
@@ -41,6 +52,7 @@ export class Routes {
         app.route('/merchants/:merchant_id')
         .delete(this.MerchantController.deleteOneMerchant);  
 
+        //CATEGORY
         app.post('/categories/create', this.CategoryController.createNewCategory, upload.single('image'));
         app.route('/categories')
         .get(this.CategoryController.readAllCategory);
@@ -48,6 +60,7 @@ export class Routes {
         app.route('/categories/:category_id')
         .delete(this.CategoryController.deleteOneCategory);
 
+        //PRODUCT
         app.post('/products/create', this.ProductController.createNewProduct, upload.single('image'));
         app.route('/products')
         .get(this.ProductController.readAllProduct);
@@ -57,6 +70,7 @@ export class Routes {
         app.route('/products/:product_id')
         .delete(this.ProductController.deleteOneProduct);
 
+        //PRODUCT GROUP
         app.post('/productgroups/create', this.ProductGroupController.createNewProductGroup);
         app.route('/productgroups')
         .get(this.ProductGroupController.readAllProductGroup);

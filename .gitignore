@@ -1,3 +1,6 @@
 node_modules
 .env.database
 package-lock.json
+.env.auth
+private.pem
+public.pem

@@ -1,6 +1,6 @@
 import { Category} from "../models/mainModel";
 import { Request, Response } from 'express';
-import { Http } from "./httpResponse";
+import { Http } from "../middlewares/httpResponse";
 
 export class CategoryController{
 

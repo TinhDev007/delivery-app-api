@@ -7,6 +7,8 @@ import * as dotenv from "dotenv";
 // import multer = require("multer");
 const multer = require('multer');
 const upload = multer();
+const POSTGRES = "postgres";
+const LIMITSIZE = "50mb";
 dotenv.config({ path: __dirname+'/../.env.database' });
 
 class App {
@@ -25,10 +27,10 @@ class App {
     
     private config(): void{
         // for parsing application/json
-        this.app.use(bodyParser.json({limit: '50mb'}));
+        this.app.use(bodyParser.json({limit: LIMITSIZE}));
         // for parsing application/xwww-form-urlencoded
         this.app.use(bodyParser.urlencoded({
-            limit: '50mb',
+            limit: LIMITSIZE,
             extended: false
         }));
         // for parsing multipart/form-data
@@ -42,13 +44,15 @@ class App {
     private async pgSetup() {  
        
         this.connection = await createConnection({
-            type: "postgres",
+            type: POSTGRES,
             host: process.env.HOST,
             port: parseInt(process.env.PORT || "", 10),
             username: process.env.UNAME,
             password: process.env.PASSWORD,
             database: process.env.DATABASE_NAME,
             entities: [
+                model.Admin,
+                model.User,
                 model.Merchant, 
                 model.Category,
                 model.Product,
