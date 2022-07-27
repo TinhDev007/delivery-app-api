@@ -16,7 +16,7 @@ export function jwtEncode(role: any) {
         // read private key value
         // const privateKey = process.env.secretkey;
         const privateKey = {
-            key: fs.readFileSync(path.join(__dirname, '../../private.pem'), 'utf8'),
+            key: fs.readFileSync(path.join(__dirname, '../../private.pem'), 'utf8') || process.env.secretkey,
             passphrase: process.env.passphrase
         };
         const signInOptions: SignOptions = {
