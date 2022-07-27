@@ -14,17 +14,13 @@ export class Admin extends BaseEntity {
     @Column()
     email!: string;
 
-    @Column()
-    password!: string;
-
     async insertOne(body: any) {
  
         return await Admin.createQueryBuilder(thisEntity)
         .insert()
         .values([
             {
-                email: body.email,
-                password: body.password
+                email: body.email
             }
         ])
         .returning(filterForm)
@@ -38,22 +34,28 @@ export class Admin extends BaseEntity {
             .execute();
     }
 
-    async updateOne(body: any, files: any, id: number) {
+    async selectById(body: any) {
         return await Admin.createQueryBuilder(thisEntity)
-            .update()
-            .set({
-                email: body.email,
-                password: body.password
-            })
-            .where(`${thisEntity}.id = :id`, { id: id })
-            .returning(filterForm)
+            .select('*')
+            .where(`${thisEntity}.email = :email`, { email: body.email })
             .execute();
     }
 
-    async deleteOne(id: number) {
-        return await Admin.createQueryBuilder(thisEntity)
-        .delete()
-        .where(`${thisEntity}.id = :id`, { id: id })
-        .execute();
-    }
+    // async updateOne(body: any, files: any, id: number) {
+    //     return await Admin.createQueryBuilder(thisEntity)
+    //         .update()
+    //         .set({
+    //             email: body.email
+    //         })
+    //         .where(`${thisEntity}.id = :id`, { id: id })
+    //         .returning(filterForm)
+    //         .execute();
+    // }
+
+    // async deleteOne(id: number) {
+    //     return await Admin.createQueryBuilder(thisEntity)
+    //     .delete()
+    //     .where(`${thisEntity}.id = :id`, { id: id })
+    //     .execute();
+    // }
 }

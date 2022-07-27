@@ -1,9 +1,13 @@
 import { Request, Response } from 'express';
-import { sign, SignOptions } from 'jsonwebtoken';
+import { sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname + '/../../.env.auth' });
 import * as fs from 'fs';
 import * as path from 'path';
+
+interface TokenPayload {
+    role: string
+  }
 
 export function jwtEncode(role: any) {
 
@@ -33,15 +37,18 @@ export function jwtEncode(role: any) {
 
 }
 
-// export function jwtDecode(req: Request, res: Response, next) {
-//     if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
-//         Jwt.verify(req.headers.authorization.split(' ')[1], process.env.secretkey, function (err, decode) {
-//             if (err) req.user = undefined;
-//             req.user = decode;
-//             next();
-//         });
-//     } else {
-//         req.user = undefined;
-//         next();
-//     }
-// }
+export function validateToken(req, res, next) {
+    var token = req.headers.authorization?.split(' ')[1];
+
+    if(token){
+        const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem'));
+  
+        const verifyOptions: VerifyOptions = {
+          algorithms: ['RS256'],
+        };
+      
+        req.body.payload = verify(token, publicKey, verifyOptions);
+        
+    }
+    next();
+  }

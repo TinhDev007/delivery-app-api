@@ -38,7 +38,7 @@ export class Routes {
         });
         
         //ADMIN
-        // app.post('/admins');
+        app.post('/admins/login', this.AdminController.logInAdmin);
 
         //USER
         app.post('/users/signup', this.UserController.signUpNewUser);

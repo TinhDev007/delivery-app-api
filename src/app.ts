@@ -4,6 +4,7 @@ import { Routes } from "./routes/mainRoutes";
 import { Connection, createConnection } from "typeorm";
 import * as model from "./models/mainModel";
 import * as dotenv from "dotenv";
+import { validateToken } from "./middlewares/jwtAuth.middleware";
 // import multer = require("multer");
 const multer = require('multer');
 const upload = multer();
@@ -38,6 +39,7 @@ class App {
         this.app.use(express.static('public'));
         //Handling CORS issue
         this.app.all('/*', this.setupCORS);
+        this.app.all('/*', validateToken);
     }
 
 

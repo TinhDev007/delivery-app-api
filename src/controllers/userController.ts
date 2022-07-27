@@ -2,7 +2,6 @@ import { User} from "../models/mainModel";
 import { Request, Response } from 'express';
 import { Http } from "../middlewares/httpResponse";
 import { jwtEncode } from "../middlewares/jwtAuth.middleware";
-import { sign, SignOptions } from 'jsonwebtoken';
 export class UserController{
 
     public async signUpNewUser (req: Request, res: Response) {
