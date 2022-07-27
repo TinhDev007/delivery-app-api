@@ -1,4 +1,4 @@
-import { Category} from "../models/mainModel";
+import { Category} from "../models/main.model";
 import { Request, Response } from 'express';
 import { Http } from "../middlewares/httpResponse";
 

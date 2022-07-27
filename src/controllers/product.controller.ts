@@ -1,4 +1,4 @@
-import { Product } from "../models/mainModel";
+import { Product } from "../models/main.model";
 import { Request, Response } from 'express';
 import { Http } from "../middlewares/httpResponse";
 

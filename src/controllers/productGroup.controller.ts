@@ -1,4 +1,4 @@
-import { ProductGroup } from "../models/mainModel";
+import { ProductGroup } from "../models/main.model";
 import { Request, Response } from 'express';
 import { Http } from "../middlewares/httpResponse";
 

@@ -7,7 +7,7 @@ import {
     CategoryController,
     ProductController,
     ProductGroupController
-} from "../controllers/mainController";
+} from "../controllers/main.controller";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

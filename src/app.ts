@@ -1,8 +1,8 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { Routes } from "./routes/mainRoutes";
+import { Routes } from "./routes/main.routes";
 import { Connection, createConnection } from "typeorm";
-import * as model from "./models/mainModel";
+import * as model from "./models/main.model";
 import * as dotenv from "dotenv";
 import { validateToken } from "./middlewares/jwtAuth.middleware";
 // import multer = require("multer");

@@ -27,7 +27,7 @@ You can restore the database of this system from the file in this path: `deliver
 - Run `$ npm install`
 - Create `.env.database` file in root level
 
-- Fill the code like below to `.env.database` file:
+- Fill the code like below to `.env.database` file in root level:
     ```
     HOST="localhost"
     PORT=5432
@@ -38,7 +38,7 @@ You can restore the database of this system from the file in this path: `deliver
 - Create private/public key:
     - To create private key, run `openssl genrsa -des3 -out private.pem 2048` in root level
     - Enter passphrase
-    - Fill the passphrase like below to `.env.auth` file:  
+    - Fill the passphrase like below to `.env.auth` file in root level:  
         ```
         passphrase='your-passhrase'
         ```
