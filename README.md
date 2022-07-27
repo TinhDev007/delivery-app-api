@@ -12,7 +12,7 @@
 You can restore the database of this system from the file in this path: `delivery-app-api/database/ddl_for_restore.sql`. If you don't know how to restore, do the following steps:
 
 - Install PostgreSQL (choose port `5432`)
-- Open Pgadmin 4 (in port: `5050`)
+- Open Pgadmin 4 
 - To enable `Restore` database, you have to correct the Binary Path in the Preferences dialog first ([more details](https://dba.stackexchange.com/questions/149169/binary-path-in-the-pgadmin-preferences)):
     - Open `File` &#8594; `Preferences` &#8594;  `Paths` &#8594; `Binary Paths`
     - Find `PostgreSQL 14` (your PostgreSQL version) and paste the binary path (e.g. `C:\Program Files\PostgreSQL\14\bin`) to that box 
@@ -45,4 +45,4 @@ You can restore the database of this system from the file in this path: `deliver
     - To create public key, run `openssl rsa -in private.pem -outform PEM -pubout -out public.pem` in root level
 
 
-- Run `$ npm run prod`
+- Run `$ npm run prod` for production environment, run `$ npm run dev` for development environment
