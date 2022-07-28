@@ -34,7 +34,7 @@ export class User extends BaseEntity {
             .execute();
     }
 
-    async selectById(body: any) {
+    async selectByEmail(body: any) {
         return await User.createQueryBuilder(thisEntity)
             .select('*')
             .where(`${thisEntity}.email = :email`, { email: body.email })

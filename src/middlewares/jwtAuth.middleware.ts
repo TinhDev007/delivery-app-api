@@ -4,16 +4,15 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname + '/../../.env.auth' });
 import * as fs from 'fs';
 import * as path from 'path';
+import { Http } from "../middlewares/httpResponse";
 
-interface TokenPayload {
-    role: string
-  }
-
-export function jwtEncode(role: any) {
+export function jwtEncode(id: any, email: any, role: any) {
 
     try {
         // information to be encoded in the JWT
         const payload = {
+            id: parseInt(id),
+            email: email,
             role: role,
             iat: new Date().getTime()
         };
@@ -37,7 +36,7 @@ export function jwtEncode(role: any) {
 
 }
 
-export function validateToken(req, res, next) {
+export async function validateToken(req, res, next) {
     var token = req.headers.authorization?.split(' ')[1];
 
     if(token){
@@ -47,8 +46,27 @@ export function validateToken(req, res, next) {
           algorithms: ['RS256'],
         };
       
-        req.body.payload = verify(token, publicKey, verifyOptions);
+        req.body.identify = verify(token, publicKey, verifyOptions);
         
     }
     next();
   }
+
+  export const roleChecking = (...allowRoles) => {
+    return (req, res, next) => {
+
+        // const roleList = [...allowRoles];
+        // if(roleList[0]=='none') {
+        //     if(req.body.identify) res.status(Http.BadRequest.status).send(Http.BadRequest);
+        //     else next();
+        // }
+        // else {
+        //     const allow = roleList.includes(req.body.identify.role);
+        //     if(allow) next();
+        //     else res.status(Http.BadRequest.status).send(Http.BadRequest);
+        // }
+        next();
+      }
+  }
+  
+  

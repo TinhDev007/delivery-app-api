@@ -12,6 +12,11 @@ CREATE TABLE admin (
     CONSTRAINT admin_email_unique UNIQUE (email)
 );
 
+INSERT INTO public.admin(
+	email)
+	VALUES ('admin@user123.com');
+
+
 CREATE TABLE client (
 
     id BIGSERIAL,
@@ -34,8 +39,9 @@ CREATE TABLE merchant (
     logo bytea,
     logotype text,
     image bytea,
-    imagetype text
+    imagetype text,
 
+    CONSTRAINT merchant_email_unique UNIQUE (email)
 );
 
 CREATE TABLE product (

@@ -1,10 +1,46 @@
 import { Merchant } from "../models/main.model";
 import { Request, Response } from 'express';
 import { Http } from "../middlewares/httpResponse";
-
+import { jwtEncode } from "../middlewares/jwtAuth.middleware";
 
 export class MerchantController {
 
+    public async signUpNewMerchant (req: Request, res: Response) {
+        try {
+            await new Merchant().insertOne(req.body, req.files);
+            res.status(Http.OK.status).send({
+                status: 200,
+                statusText: "Sign up successfully."
+            });
+        } catch (error) {
+            res.status(409).send({
+                status: 409,
+                statusText: "Email already exists."
+            });
+        }
+    }
+
+    public async logInMerchant (req: Request, res: Response) {
+        try {
+            var data = (await new Merchant().selectByEmail(req.body));
+            if(data.length){
+                data[0].token=jwtEncode(data[0].id, data[0].email, 'merchant');
+                res.status(Http.OK.status).send({
+                    data: data[0]
+                });
+            }     
+            else
+                res.status(409).send({
+                    status: 409,
+                    statusText: "Wrong Email. Please check your email again."
+                });
+                
+        } catch (error) {
+            console.log(error);
+            res.status(Http.BadRequest.status).send(Http.BadRequest);
+        }
+    }
+    
     public async createNewMerchant(req: Request, res: Response) {
         try {
             res.status(Http.OK.status).send({
