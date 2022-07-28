@@ -4,7 +4,10 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname + '/../../.env.auth' });
 import * as fs from 'fs';
 import * as path from 'path';
-import { Http } from "../middlewares/httpResponse";
+
+const ALGORITHM = 'RS256';
+const EXPIRE_TIME = '365d';
+
 
 export function jwtEncode(id: any, email: any, role: any) {
 
@@ -26,8 +29,8 @@ export function jwtEncode(id: any, email: any, role: any) {
             // RS256 uses a public/private key pair. The API provides the private key
             // to generate the JWT. The client gets a public key to validate the
             // signature
-            algorithm: 'RS256',
-            expiresIn: '365d'
+            algorithm: ALGORITHM,
+            expiresIn: EXPIRE_TIME
         };
         return sign(payload, privateKey, signInOptions);
     } catch (error) {
@@ -43,7 +46,7 @@ export async function validateToken(req, res, next) {
         const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem'));
   
         const verifyOptions: VerifyOptions = {
-          algorithms: ['RS256'],
+          algorithms: [ALGORITHM],
         };
       
         req.body.identify = verify(token, publicKey, verifyOptions);
