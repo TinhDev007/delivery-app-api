@@ -35,7 +35,8 @@ You can restore the database of this system from the file in this path: `deliver
     PASSWORD="root"
     DATABASE_NAME="webstore"
     ```
-- Create private/public key:
+- Create private/public key (For JWT authentication):
+    - Install `OpenSSL`
     - To create private key, run `openssl genrsa -des3 -out private.pem 2048` in root level
     - Enter passphrase
     - Fill the passphrase like below to `.env.auth` file in root level:  
@@ -45,4 +46,9 @@ You can restore the database of this system from the file in this path: `deliver
     - To create public key, run `openssl rsa -in private.pem -outform PEM -pubout -out public.pem` in root level
 
 
-- Run `$ npm run prod` for production environment, run `$ npm run dev` for development environment
+- Run `$ npm run prod` for **production** environment, run `$ npm run dev` for **development** environment
+
+[postgresql]: https://img.shields.io/badge/postgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white
+[postgresql-url]: https://www.postgresql.org/docs/10/index.html
+[nodejs]: https://img.shields.io/badge/NodeJS-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
+[nodejs-url]: https://nodejs.org/dist/latest-v18.x/docs/api/
