@@ -9,7 +9,7 @@
 
 ## Database
 
-You can restore the database of this system from the file in this path: `delivery-app-api/database/ddl_for_restore.sql`. If you don't know how to restore, do the following steps:
+You can **restore** the database of this system from the file in this path: `delivery-app-api/database/ddl_for_restore.sql`. If you don't know how to **restore**, do the following steps:
 
 - Install PostgreSQL (choose port `5432`)
 - Open Pgadmin 4 
@@ -21,28 +21,41 @@ You can restore the database of this system from the file in this path: `deliver
 
 - Restore `webstore` database with source code from this path: `delivery-app-api/database/ddl_for_restore.sql`.
 
-(You can also paste the content in `delivery-app-api/database/ddl_in_text.sql` to `Query Tool` of `webstore` database to restore the database)
+(You can also paste the content in `delivery-app-api/database/ddl_readable.sql` and `delivery-app-api/database/dml_readable.sql` to `Query Tool` of `webstore` database to restore the database)
 ## Web Application
 
 - Run `$ npm install`
 - Create `.env.database` file in root level
 
-- Fill the code like below to `.env.database` file in root level:
+- Fill your database information to `.env.database` file:
     ```
-    HOST="localhost"
-    PORT=5432
+    HOST="<host-name>"
+    PORT=<your postgresql port>
     UNAME="postgres"
     PASSWORD="root"
     DATABASE_NAME="webstore"
     ```
-- Create private/public key:
-    - To create private key, run `openssl genrsa -des3 -out private.pem 2048` in root level
+- Create private/public key (For JWT authentication):
+    - Install [OpenSSL](https://slproweb.com/products/Win32OpenSSL.html) (version 63MB)
+    - Add the path of binary file `...\OpenSSL-Win64\bin` to environment variables.
+    - To create private key, run this cmd in root level:
+    `openssl genrsa -des3 -out private.pem 2048` 
     - Enter passphrase
     - Fill the passphrase like below to `.env.auth` file in root level:  
         ```
         passphrase='your-passhrase'
         ```
-    - To create public key, run `openssl rsa -in private.pem -outform PEM -pubout -out public.pem` in root level
+    - To create public key, run this cmd in root level: `openssl rsa -in private.pem -outform PEM -pubout -out public.pem` 
 
+- Create `.env.webserver` file in root level
 
-- Run `$ npm run prod` for production environment, run `$ npm run dev` for development environment
+- Fill your database information to `.env.webserver` file:
+    ```
+    PORT=<your webserver port>
+    ```
+- Run `$ npm run prod` for **production** environment, run `$ npm run dev` for **development** environment
+
+[postgresql]: https://img.shields.io/badge/postgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white
+[postgresql-url]: https://www.postgresql.org/docs/10/index.html
+[nodejs]: https://img.shields.io/badge/NodeJS-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
+[nodejs-url]: https://nodejs.org/dist/latest-v18.x/docs/api/

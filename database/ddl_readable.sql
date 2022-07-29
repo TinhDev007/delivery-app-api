@@ -3,6 +3,13 @@
 
 -- Setup the database schema.
 -- CREATE EXTENSION pgcrypto;
+CREATE TABLE usr (
+
+    id BIGSERIAL,
+    email TEXT,
+    role TEXT,
+    CONSTRAINT usr_email_unique UNIQUE (email)
+);
 
 CREATE TABLE admin (
 
@@ -11,11 +18,6 @@ CREATE TABLE admin (
 
     CONSTRAINT admin_email_unique UNIQUE (email)
 );
-
-INSERT INTO public.admin(
-	email)
-	VALUES ('admin@user123.com');
-
 
 CREATE TABLE client (
 
@@ -76,4 +78,100 @@ CREATE TABLE product_group (
     merchantid INTEGER
 
 );
+
+-- TRIGGER INSERT TO ADMIN
+CREATE OR REPLACE FUNCTION insert_admin_trigger_function() 
+   RETURNS TRIGGER 
+   LANGUAGE PLPGSQL
+AS $$
+BEGIN
+   INSERT INTO public.usr(
+	email, role)
+	VALUES (NEW.email, 'admin'); 
+    RETURN NEW;
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER insert_admin_trigger 
+    BEFORE INSERT ON public.admin 
+    FOR EACH ROW
+    EXECUTE PROCEDURE insert_admin_trigger_function();
+
+-- TRIGGER INSERT TO MERCHANT
+CREATE OR REPLACE FUNCTION insert_merchant_trigger_function() 
+   RETURNS TRIGGER 
+   LANGUAGE PLPGSQL
+AS $$
+BEGIN
+   INSERT INTO public.usr(
+	email, role)
+	VALUES (NEW.email, 'merchant'); 
+    RETURN NEW;
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER insert_merchant_trigger 
+    BEFORE INSERT ON public.merchant 
+    FOR EACH ROW
+    EXECUTE PROCEDURE insert_merchant_trigger_function();
+
+-- TRIGGER UPDATE TO MERCHANT
+CREATE OR REPLACE FUNCTION update_merchant_trigger_function() 
+   RETURNS TRIGGER 
+   LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    IF NEW.email <> OLD.email THEN
+        UPDATE public.usr
+        SET email=NEW.email
+        WHERE email=OLD.email;
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER update_merchant_trigger 
+    BEFORE UPDATE ON public.merchant 
+    FOR EACH ROW
+    EXECUTE PROCEDURE update_merchant_trigger_function();
+
+-- TRIGGER INSERT TO USER
+CREATE OR REPLACE FUNCTION insert_user_trigger_function() 
+   RETURNS TRIGGER 
+   LANGUAGE PLPGSQL
+AS $$
+BEGIN
+   INSERT INTO public.usr(
+	email, role)
+	VALUES (NEW.email, 'user'); 
+    RETURN NEW;
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER insert_user_trigger 
+    BEFORE INSERT ON public.client 
+    FOR EACH ROW
+    EXECUTE PROCEDURE insert_user_trigger_function();
+
+--TRIGGER UPDATE TO USER
+CREATE OR REPLACE FUNCTION update_user_trigger_function() 
+   RETURNS TRIGGER 
+   LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    IF NEW.email <> OLD.email THEN
+        UPDATE public.usr
+        SET email=NEW.email
+        WHERE email=OLD.email;
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE OR REPLACE TRIGGER update_user_trigger 
+    BEFORE UPDATE ON public.client 
+    FOR EACH ROW
+    EXECUTE PROCEDURE update_user_trigger_function();
+
+
 

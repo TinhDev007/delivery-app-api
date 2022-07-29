@@ -10,25 +10,25 @@ const multer = require('multer');
 const upload = multer();
 const POSTGRES = "postgres";
 const LIMITSIZE = "50mb";
-dotenv.config({ path: __dirname+'/../.env.database' });
+dotenv.config({ path: __dirname + '/../.env.database' });
 
 class App {
 
     public app: express.Application;
-    public routePrv: Routes = new Routes(); 
+    public routePrv: Routes = new Routes();
     public connection: Connection;
 
-    constructor(){
-        this.app =  express();
+    constructor() {
+        this.app = express();
         this.config();
-        this.routePrv.routes(this.app); 
+        this.routePrv.routes(this.app);
 
-        this.pgSetup(); 
+        this.pgSetup();
     }
-    
-    private config(): void{
+
+    private config(): void {
         // for parsing application/json
-        this.app.use(bodyParser.json({limit: LIMITSIZE}));
+        this.app.use(bodyParser.json({ limit: LIMITSIZE }));
         // for parsing application/xwww-form-urlencoded
         this.app.use(bodyParser.urlencoded({
             limit: LIMITSIZE,
@@ -44,24 +44,31 @@ class App {
     }
 
 
-    private async pgSetup() {  
-       
-        this.connection = await createConnection({
-            type: POSTGRES,
-            host: process.env.HOST,
-            port: parseInt(process.env.PORT || "", 10),
-            username: process.env.UNAME,
-            password: process.env.PASSWORD,
-            database: process.env.DATABASE_NAME,
-            entities: [
-                model.Admin,
-                model.User,
-                model.Merchant, 
-                model.Category,
-                model.Product,
-                model.ProductGroup
-            ]
-          });
+    private async pgSetup() {
+
+        try {
+            this.connection = await createConnection({
+                type: POSTGRES,
+                host: process.env.HOST,
+                port: parseInt(process.env.PORT || "", 10),
+                username: process.env.UNAME,
+                password: process.env.PASSWORD,
+                database: process.env.DATABASE_NAME,
+                entities: [
+                    model.Admin,
+                    model.User,
+                    model.Merchant,
+                    model.Category,
+                    model.Product,
+                    model.ProductGroup
+                ]
+            });
+            console.log(`Postgres database connected in port: ${process.env.PORT}`)
+        } catch (error) {
+            console.log(`Database error: `, error);
+            this.connection.close();
+        }
+
     }
 
     private setupCORS(req, res, next) {
