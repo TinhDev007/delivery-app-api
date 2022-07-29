@@ -4,22 +4,22 @@ import { Http } from "../middlewares/httpResponse";
 import { jwtEncode } from "../middlewares/jwtAuth.middleware";
 export class AdminController{
 
-    public async createNewCategory (req: Request, res: Response) {
-        try {
+    // public async createNewCategory (req: Request, res: Response) {
+    //     try {
             
-            res.status(Http.OK.status).send({
-                data: (await new Admin().insertOne(req.body))["raw"][0]
-            });
-        } catch (error) {
-            res.status(Http.Failed.status).send(Http.Failed);
-        }
-    }
+    //         res.status(Http.OK.status).send({
+    //             data: (await new Admin().insertOne(req.body))["raw"][0]
+    //         });
+    //     } catch (error) {
+    //         res.status(Http.Failed.status).send(Http.Failed);
+    //     }
+    // }
 
     public async logInAdmin (req: Request, res: Response) {
         try {
-            var data = (await new Admin().selectById(req.body));
+            var data = (await new Admin().selectByEmail(req.body));
             if(data.length){
-                data[0].token=jwtEncode('admin');
+                data[0].token=jwtEncode(data[0].id, data[0].email, 'admin');
                 res.status(Http.OK.status).send({
                     data: data[0]
                 });

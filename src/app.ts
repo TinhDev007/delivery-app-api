@@ -4,7 +4,7 @@ import { Routes } from "./routes/main.routes";
 import { Connection, createConnection } from "typeorm";
 import * as model from "./models/main.model";
 import * as dotenv from "dotenv";
-import { validateToken } from "./middlewares/jwtAuth.middleware";
+import { validateToken, roleChecking } from "./middlewares/jwtAuth.middleware";
 // import multer = require("multer");
 const multer = require('multer');
 const upload = multer();
@@ -40,6 +40,7 @@ class App {
         //Handling CORS issue
         this.app.all('/*', this.setupCORS);
         this.app.all('/*', validateToken);
+        // this.app.all('/*', roleChecking);
     }
 
 

@@ -5,15 +5,17 @@ dotenv.config({ path: __dirname + '/../../.env.auth' });
 import * as fs from 'fs';
 import * as path from 'path';
 
-interface TokenPayload {
-    role: string
-  }
+const ALGORITHM = 'RS256';
+const EXPIRE_TIME = '365d';
 
-export function jwtEncode(role: any) {
+
+export function jwtEncode(id: any, email: any, role: any) {
 
     try {
         // information to be encoded in the JWT
         const payload = {
+            id: parseInt(id),
+            email: email,
             role: role,
             iat: new Date().getTime()
         };
@@ -27,8 +29,8 @@ export function jwtEncode(role: any) {
             // RS256 uses a public/private key pair. The API provides the private key
             // to generate the JWT. The client gets a public key to validate the
             // signature
-            algorithm: 'RS256',
-            expiresIn: '365d'
+            algorithm: ALGORITHM,
+            expiresIn: EXPIRE_TIME
         };
         return sign(payload, privateKey, signInOptions);
     } catch (error) {
@@ -37,18 +39,37 @@ export function jwtEncode(role: any) {
 
 }
 
-export function validateToken(req, res, next) {
+export async function validateToken(req, res, next) {
     var token = req.headers.authorization?.split(' ')[1];
 
     if(token){
         const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem')) || process.env.publickey;
   
         const verifyOptions: VerifyOptions = {
-          algorithms: ['RS256'],
+          algorithms: [ALGORITHM],
         };
       
-        req.body.payload = verify(token, publicKey, verifyOptions);
+        req.body.identify = verify(token, publicKey, verifyOptions);
         
     }
     next();
   }
+
+  export const roleChecking = (...allowRoles) => {
+    return (req, res, next) => {
+
+        // const roleList = [...allowRoles];
+        // if(roleList[0]=='none') {
+        //     if(req.body.identify) res.status(Http.BadRequest.status).send(Http.BadRequest);
+        //     else next();
+        // }
+        // else {
+        //     const allow = roleList.includes(req.body.identify.role);
+        //     if(allow) next();
+        //     else res.status(Http.BadRequest.status).send(Http.BadRequest);
+        // }
+        next();
+      }
+  }
+  
+  

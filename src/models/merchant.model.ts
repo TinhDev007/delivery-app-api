@@ -49,18 +49,6 @@ export class Merchant extends BaseEntity {
         var flogotype: string;
         var fimagetype: string;
 
-        // for(let file of files){
-        //     switch (file.fieldname) {
-        //         case 'image':
-        //             fimage = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-        //             break;
-        //         case 'logo':
-        //             flogo = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // }
         for(let file of files){
             switch (file.fieldname) {
                 case 'image':
@@ -102,24 +90,19 @@ export class Merchant extends BaseEntity {
             .execute();
     }
 
+    async selectByEmail(body: any) {
+        return await Merchant.createQueryBuilder(thisEntity)
+            .select('*')
+            .where(`${thisEntity}.email = :email`, { email: body.email })
+            .execute();
+    }
+
     async updateOne(body: any, files: any, id: number) {
         var flogo: Buffer;
         var fimage: Buffer;
         var flogotype: string;
         var fimagetype: string;
 
-        // for(let file of files){
-        //     switch (file.fieldname) {
-        //         case 'image':
-        //             fimage = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-        //             break;
-        //         case 'logo':
-        //             flogo = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // }
         for(let file of files){
             switch (file.fieldname) {
                 case 'image':
