@@ -41,7 +41,7 @@ export function validateToken(req, res, next) {
     var token = req.headers.authorization?.split(' ')[1];
 
     if(token){
-        const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem'));
+        const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem')) || process.env.publickey;
   
         const verifyOptions: VerifyOptions = {
           algorithms: ['RS256'],
