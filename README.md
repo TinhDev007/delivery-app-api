@@ -21,7 +21,7 @@ You can **restore** the database of this system from the file in this path: `del
 
 - Restore `webstore` database with source code from this path: `delivery-app-api/database/ddl_for_restore.sql`.
 
-(You can also paste the content in `delivery-app-api/database/ddl_in_text.sql` to `Query Tool` of `webstore` database to restore the database)
+(You can also paste the content in `delivery-app-api/database/ddl_readable.sql` and `delivery-app-api/database/dml_readable.sql` to `Query Tool` of `webstore` database to restore the database)
 ## Web Application
 
 - Run `$ npm install`
