@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname + '/../../.env.auth' });
 import * as fs from 'fs';
 import * as path from 'path';
+import { Http } from './httpResponse';
 
 const ALGORITHM = 'RS256';
 const EXPIRE_TIME = '365d';
@@ -58,16 +59,16 @@ export async function validateToken(req, res, next) {
   export const roleChecking = (...allowRoles) => {
     return (req, res, next) => {
 
-        // const roleList = [...allowRoles];
-        // if(roleList[0]=='none') {
-        //     if(req.body.identify) res.status(Http.BadRequest.status).send(Http.BadRequest);
-        //     else next();
-        // }
-        // else {
-        //     const allow = roleList.includes(req.body.identify.role);
-        //     if(allow) next();
-        //     else res.status(Http.BadRequest.status).send(Http.BadRequest);
-        // }
+        const roleList = [...allowRoles];
+        if(roleList[0]=='none') {
+            if(req.body.identify) res.status(Http.BadRequest.status).send(Http.BadRequest);
+            else next();
+        }
+        else {
+            const allow = roleList.includes(req.body.identify.role);
+            if(allow) next();
+            else res.status(Http.BadRequest.status).send(Http.BadRequest);
+        }
         next();
       }
   }
