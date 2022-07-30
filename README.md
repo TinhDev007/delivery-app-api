@@ -51,7 +51,7 @@ You can **restore** the database of this system from the file in this path: `del
 
 - Fill your database information to `.env.webserver` file:
     ```
-    PORT=<your webserver port>
+    WEB_PORT=<your webserver port>
     ```
 - Run `$ npm run prod` for **production** environment, run `$ npm run dev` for **development** environment
 

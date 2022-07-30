@@ -2,8 +2,8 @@ import app from "./app";
 import * as https from 'https';
 import * as fs from 'fs';
 import * as dotenv from "dotenv";
-dotenv.config({ path: __dirname+'/../.env.server' });
-const PORT = process.env.PORT;
+dotenv.config({ path: __dirname+'/../.env.webserver' });
+const PORT = process.env.WEB_PORT;
 
 
 // const httpsOptions = {

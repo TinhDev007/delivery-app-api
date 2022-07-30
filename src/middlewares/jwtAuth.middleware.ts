@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+// import { Request, Response } from 'express';
 import { sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname + '/../../.env.auth' });
@@ -15,7 +15,7 @@ export function jwtEncode(id: any, email: any, role: any) {
     try {
         // information to be encoded in the JWT
         const payload = {
-            id: parseInt(id),
+            id: id,
             email: email,
             role: role,
             iat: new Date().getTime()
@@ -60,17 +60,29 @@ export async function validateToken(req, res, next) {
     return (req, res, next) => {
         try {
             const roleList = [...allowRoles];
-            if(roleList[0]=='none') {
+            if(roleList[0].role=='none') {
                 if(req.body.identify) res.status(Http.BadRequest.status).send(Http.BadRequest);
                 else next();
             }
             else {
-                const allow = roleList.includes(req.body.identify.role);
+                // const allow = roleList.includes(req.body.identify.role);
+                var allow: boolean = false;
+                roleList.forEach((ele) => {
+                    if(req.body.identify.role==ele.role){
+                        if(ele.range=='self'){
+                            allow = true;
+                            // if(req.body.identify.id==req.params.merchant_id)
+                            //     allow = true;
+                        }
+                        else allow = true;
+                    }
+                });
                 if(allow) next();
                 else res.status(Http.BadRequest.status).send(Http.BadRequest);
             }
         } catch (error) {
             console.log('Rolechecking Error\n', error);
+            res.status(Http.BadRequest.status).send(Http.BadRequest);
         }
         
       }
