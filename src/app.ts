@@ -63,7 +63,7 @@ class App {
                     model.ProductGroup
                 ]
             });
-            console.log(`Postgres database connected in port: ${process.env.PORT}`)
+            console.log(`Postgres database connected on port: ${process.env.PORT}`)
         } catch (error) {
             console.log(`Database error: `, error);
             this.connection.close();
