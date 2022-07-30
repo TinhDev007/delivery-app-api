@@ -96,7 +96,7 @@ export class Routes {
         // app.post('/merchants/login', roleChecking(ROLE.NONE), this.MerchantController.logInMerchant);
         //--Create - Roles allowed: admin, merchant
         app.post('/merchants/create', 
-          roleChecking(ROLE.ADMIN, ROLE.MERCHANT), 
+          roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL), 
           this.MerchantController.createNewMerchant, upload.single('image')
         );
          //--Read - Roles allowed: admin, merchant
