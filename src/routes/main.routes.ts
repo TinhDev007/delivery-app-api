@@ -120,7 +120,7 @@ export class Routes {
         app.post('/categories/create', roleChecking(ROLE.ADMIN_ALL), this.CategoryController.createNewCategory, upload.single('image'));
         //--Read - Roles allowed: admin
         app.route('/categories')
-        .get(roleChecking(ROLE.ADMIN_ALL), this.CategoryController.readAllCategory);
+        .get(roleChecking(ROLE.NONE, ROLE.ADMIN_ALL, ROLE.USER_ALL, ROLE.MERCHANT_ALL), this.CategoryController.readAllCategory);
         //--Update - Roles allowed: admin
         app.put('/categories/:category_id', roleChecking(ROLE.ADMIN_ALL), this.CategoryController.updateOneCategory, upload.single('image'))
         //--Delete - Roles allowed: admin
