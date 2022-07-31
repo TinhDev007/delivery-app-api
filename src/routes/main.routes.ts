@@ -83,11 +83,16 @@ export class Routes {
 
 
         //USER
-        //--Signup - Roles allowed: unknown guess
-        // app.post('/users/signup', roleChecking(ROLE.NONE), this.UserController.signUpNewUser);
-        //--Login - Roles allowed: unknown guess
-        // app.post('/users/login', roleChecking(ROLE.NONE), this.UserController.logInUser);
+        //--Create - Roles allowed: admin
+        app.post('/users/create', roleChecking(ROLE.ADMIN_ALL), this.UserController.signUpNewUser);
+        //--Read - Roles allowed: admin
+        app.get('/users', roleChecking(ROLE.ADMIN_ALL), this.UserController.readAllUser);
+        //--Read specific user - Roles allowed: user
+        app.get('/users/:user_id', roleChecking(ROLE.USER_SELF), this.UserController.readUserById);
 
+        // app.put('/users/:user_id', roleChecking(ROLE.ADMIN_ALL, ROLE.USER_SELF), this.UserController.readUserById);
+
+        // app.delete('/users/:user_id', roleChecking(ROLE.ADMIN_ALL, ROLE.USER_SELF), this.UserController.readUserById);
 
         //MERCHANT
         //--Signup - Roles allowed: unknown guess
@@ -96,29 +101,29 @@ export class Routes {
         // app.post('/merchants/login', roleChecking(ROLE.NONE), this.MerchantController.logInMerchant);
         //--Create - Roles allowed: admin, merchant
         app.post('/merchants/create', 
-          roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL), 
+          roleChecking(ROLE.ADMIN_ALL), 
           this.MerchantController.createNewMerchant, upload.single('image')
         );
-         //--Read - Roles allowed: admin, merchant
+         //--Read - Roles allowed: admin, merchant, user, none
         app.route('/merchants')
         .get(
-          roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL), 
+          roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF, ROLE.USER_ALL, ROLE.NONE), 
           this.MerchantController.readAllMerchant);
         //--Update - Roles allowed: admin, merchant
         app.put('/merchants/:merchant_id', 
-          roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL), 
+          roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), 
           this.MerchantController.updateOneMerchant, upload.single('image'))
         //--Delete - Roles allowed: admin, merchant
         app.route('/merchants/:merchant_id')
         .delete(
-          roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL), 
+          roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), 
           this.MerchantController.deleteOneMerchant);  
 
 
         //CATEGORY
         //--Create - Roles allowed: admin
         app.post('/categories/create', roleChecking(ROLE.ADMIN_ALL), this.CategoryController.createNewCategory, upload.single('image'));
-        //--Read - Roles allowed: admin
+        //--Read - Roles allowed: admin, user, merchant, none
         app.route('/categories')
         .get(roleChecking(ROLE.NONE, ROLE.ADMIN_ALL, ROLE.USER_ALL, ROLE.MERCHANT_ALL), this.CategoryController.readAllCategory);
         //--Update - Roles allowed: admin
@@ -129,35 +134,35 @@ export class Routes {
 
 
         //PRODUCT
-        //--Create - Roles allowed: admin, merchant
-        app.post('/products/create', roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL), this.ProductController.createNewProduct, upload.single('image'));
-        //--Read - Roles allowed: admin, merchant
+        //--Create - Roles allowed: admin
+        app.post('/products/create', roleChecking(ROLE.ADMIN_ALL), this.ProductController.createNewProduct, upload.single('image'));
+        //--Read - Roles allowed: admin, merchant, user, none
         app.route('/products')
-        .get(roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL), this.ProductController.readAllProduct);
+        .get(roleChecking(ROLE.ADMIN_ALL, ROLE.USER_ALL, ROLE.NONE), this.ProductController.readAllProduct);
         //--Read by merchantid - Roles allowed: admin, merchant
         app.route('/products/:merchant_id')
         .get(roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductController.readAllProductByMerchantId);
         //--Update - Roles allowed: admin, merchant
-        app.put('/products/:product_id', roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL), this.ProductController.updateOneProduct, upload.single('image'))
+        app.put('/products/:product_id', roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductController.updateOneProduct, upload.single('image'))
         //--Delete - Roles allowed: admin, merchant
         app.route('/products/:product_id')
-        .delete(roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL), this.ProductController.deleteOneProduct);
+        .delete(roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductController.deleteOneProduct);
 
-        
+
         //PRODUCT GROUP
-        //--Create - Roles allowed: admin
-        app.post('/productgroups/create', roleChecking(ROLE.ADMIN_ALL), this.ProductGroupController.createNewProductGroup);
-        //--Read - Roles allowed: admin
+        //--Create - Roles allowed: admin, merchant
+        app.post('/productgroups/create', roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductGroupController.createNewProductGroup);
+        //--Read - Roles allowed: admin, user, none
         app.route('/productgroups')
-        .get(roleChecking(ROLE.ADMIN_ALL), this.ProductGroupController.readAllProductGroup);
-        //--Read by merchantid - Roles allowed: admin
+        .get(roleChecking(ROLE.ADMIN_ALL, ROLE.USER_ALL, ROLE.NONE), this.ProductGroupController.readAllProductGroup);
+        //--Read by merchantid - Roles allowed: admin, merchant
         app.route('/productgroups/:merchant_id')
         .get(roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductGroupController.readAllProductGroupByMerchantId);
-        //--Update - Roles allowed: admin
-        app.put('/productgroups/:productgroup_id', roleChecking(ROLE.ADMIN_ALL), this.ProductGroupController.updateOneProductGroup)
-        //--Delete - Roles allowed: admin
+        //--Update - Roles allowed: admin, merchant
+        app.put('/productgroups/:productgroup_id', roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductGroupController.updateOneProductGroup)
+        //--Delete - Roles allowed: admin, merchant
         app.route('/productgroups/:productgroup_id')
-        .delete(roleChecking(ROLE.ADMIN_ALL), this.ProductGroupController.deleteOneProductGroup);
+        .delete(roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductGroupController.deleteOneProductGroup);
 
     }
 }

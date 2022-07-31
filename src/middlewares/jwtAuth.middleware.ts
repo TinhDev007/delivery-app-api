@@ -61,14 +61,14 @@ export async function validateToken(req, res, next) {
         try {
             const roleList = [...allowRoles];
             if(roleList[0].role=='none') {
-                if(req.body.identify) res.status(Http.BadRequest.status).send(Http.BadRequest);
-                else next();
+                next();
             }
             else {
                 // const allow = roleList.includes(req.body.identify.role);
                 var allow: boolean = false;
                 roleList.forEach((ele) => {
-                    if(req.body.identify.role==ele.role){
+                    if(!req.body.identify) allow = true;
+                    else if(req.body.identify.role==ele.role){
                         if(ele.range=='self'){
                             allow = true;
                             // if(req.body.identify.id==req.params.merchant_id)
