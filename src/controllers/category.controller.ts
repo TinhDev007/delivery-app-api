@@ -33,7 +33,7 @@ export class CategoryController{
                     req.files,
                     parseInt(req.params.category_id))
                     )["raw"][0];
-                if(data.length){
+                if(data){
                     res.status(Http.OK.status).send({
                         data: data
                     });
