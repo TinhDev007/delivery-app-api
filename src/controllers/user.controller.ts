@@ -40,15 +40,25 @@ export class UserController{
         }
     }
 
-    // public async readAllCategory (req: Request, res: Response){
-    //     try {
-    //         res.status(Http.OK.status).send({
-    //             data: await new User().selectAll()
-    //         });
-    //     } catch (error) {
-    //         res.status(Http.Failed.status).send(Http.Failed);
-    //     }
-    // }
+    public async readAllUser (req: Request, res: Response){
+        try {
+            res.status(Http.OK.status).send({
+                data: await new User().selectAll()
+            });
+        } catch (error) {
+            res.status(Http.Failed.status).send(Http.Failed);
+        }
+    }
+
+    public async readUserById (req: Request, res: Response){
+        try {
+            res.status(Http.OK.status).send({
+                data: await new User().selectById(req.params)
+            });
+        } catch (error) {
+            res.status(Http.Failed.status).send(Http.Failed);
+        }
+    }
 
     // public async updateOneCategory (req: Request, res: Response){
     //     try {
