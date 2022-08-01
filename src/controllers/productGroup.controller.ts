@@ -27,6 +27,7 @@ export class ProductGroupController {
     
     public async readAllProductGroupByMerchantId(req: Request, res: Response) {
         try {
+           
             if (Number.isInteger(parseInt(req.params.merchant_id)))
                 res.status(Http.OK.status).send({
                     data: await new ProductGroup().selectByMerchantid(parseInt(req.params.merchant_id))
