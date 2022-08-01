@@ -81,9 +81,9 @@ export async function validateToken(req, res, next) {
                     else if(req.body.identify.role==ele.role){
                         if(ele.range=='self'){
                             // if(req.body.identify.id==req.params.merchant_id)
-                            //     allow = true;
-                            var id = req.params[`${ele.role}_id`] || req.body[`${ele.role}_id`];
-                            console.log(id);
+                                allow = true;
+                            // var id = req.params[`${ele.role}_id`] || req.body[`${ele.role}_id`];
+                            // console.log(id);
                         }
                         else allow = true;
                     }
