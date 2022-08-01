@@ -1,12 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
-const thisEntity = "admin";  //ENTITY NAME
+const thisEntity = "usr";  //ENTITY NAME
 const filterForm = `
-                    id, email
+                    id, email, role
                     `;
 
 @Entity({ name: thisEntity})
-export class Admin extends BaseEntity {
+export class CommonUser extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id!: number;
@@ -14,29 +14,32 @@ export class Admin extends BaseEntity {
     @Column()
     email!: string;
 
-    async insertOne(body: any) {
+    @Column()
+    role!: string;
+
+    // async insertOne(body: any) {
  
-        return await Admin.createQueryBuilder(thisEntity)
-        .insert()
-        .values([
-            {
-                email: body.email
-            }
-        ])
-        .returning(filterForm)
-        .execute();
-    }
+    //     return await Admin.createQueryBuilder(thisEntity)
+    //     .insert()
+    //     .values([
+    //         {
+    //             email: body.email
+    //         }
+    //     ])
+    //     .returning(filterForm)
+    //     .execute();
+    // }
     
     async selectAll() {
-        return await Admin.createQueryBuilder(thisEntity)
+        return await CommonUser.createQueryBuilder(thisEntity)
             .select(filterForm)
             .orderBy(`${thisEntity}.id`, 'ASC')
             .execute();
     }
 
-    async selectByEmail(body: any, form: string) {
-        return await Admin.createQueryBuilder(thisEntity)
-            .select(form)
+    async selectByEmail(body: any) {
+        return await CommonUser.createQueryBuilder(thisEntity)
+            .select('*')
             .where(`${thisEntity}.email = :email`, { email: body.email })
             .execute();
     }

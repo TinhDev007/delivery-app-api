@@ -21,9 +21,11 @@ export class UserController{
 
     public async logInUser (req: Request, res: Response) {
         try {
-            var data = (await new User().selectByEmail(req.body));
+            var form = `id`;
+            var data = (await new User().selectByEmail(req.body, form));
             if(data.length){
                 data[0].token=jwtEncode(data[0].id, data[0].email, 'user');
+                data[0].role='user';
                 res.status(Http.OK.status).send({
                     data: data[0]
                 });

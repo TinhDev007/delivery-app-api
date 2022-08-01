@@ -3,5 +3,3 @@ node_modules
 .env.database
 .env.auth
 package-lock.json
-private.pem
-public.pem

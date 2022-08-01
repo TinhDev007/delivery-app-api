@@ -89,10 +89,17 @@ export class Merchant extends BaseEntity {
             .orderBy(`${thisEntity}.id`, 'ASC')
             .execute();
     }
-
-    async selectByEmail(body: any) {
+    
+    async selectById(id: any) {
         return await Merchant.createQueryBuilder(thisEntity)
-            .select('*')
+            .select(filterForm)
+            .where(`${thisEntity}.id = :id`, { id: id })
+            .execute();
+    }
+
+    async selectByEmail(body: any, form: string) {
+        return await Merchant.createQueryBuilder(thisEntity)
+            .select(form)
             .where(`${thisEntity}.email = :email`, { email: body.email })
             .execute();
     }

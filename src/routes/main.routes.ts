@@ -11,6 +11,7 @@ import {
 } from "../controllers/main.controller";
 import { roleChecking } from "../middlewares/jwtAuth.middleware";
 import { ROLE } from "../utils/roles.utils";
+import { emailClassifying } from "../middlewares/emailClassifying.middleware";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -59,7 +60,7 @@ export class Routes {
           }
           , upload.single('image'));
         //--Login - Roles allowed: unknown guess
-        app.post('/login', roleChecking(ROLE.NONE), 
+        app.post('/login', roleChecking(ROLE.NONE), emailClassifying(),
           (req: Request, res: Response) => {
             switch (req.body.role) {
               case ROLE.ADMIN:
@@ -107,8 +108,13 @@ export class Routes {
          //--Read - Roles allowed: admin, merchant, user, none
         app.route('/merchants')
         .get(
-          roleChecking(ROLE.ADMIN_ALL, ROLE.USER_ALL, ROLE.NONE), 
+          roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL, ROLE.USER_ALL, ROLE.NONE), 
           this.MerchantController.readAllMerchant);
+         //--Read - Roles allowed: admin, merchant, user, none
+         app.route('/merchants/:merchant_id')
+         .get(
+           roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_ALL, ROLE.USER_ALL, ROLE.NONE), 
+           this.MerchantController.readAllMerchantById);
         //--Update - Roles allowed: admin, merchant
         app.put('/merchants/:merchant_id', 
           roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), 

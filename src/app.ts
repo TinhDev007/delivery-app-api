@@ -60,7 +60,8 @@ class App {
                     model.Merchant,
                     model.Category,
                     model.Product,
-                    model.ProductGroup
+                    model.ProductGroup,
+                    model.CommonUser
                 ]
             });
             console.log(`Postgres database connected on port: ${process.env.PORT}`)

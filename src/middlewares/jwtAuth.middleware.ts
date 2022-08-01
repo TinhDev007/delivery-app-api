@@ -41,19 +41,26 @@ export function jwtEncode(id: any, email: any, role: any) {
 }
 
 export async function validateToken(req, res, next) {
-    var token = req.headers.authorization?.split(' ')[1];
+    try {
+        var token = req.headers.authorization?.split(' ')[1];
 
-    if(token){
-        const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem')) || process.env.publickey;
-  
-        const verifyOptions: VerifyOptions = {
-          algorithms: [ALGORITHM],
-        };
-      
-        req.body.identify = verify(token, publicKey, verifyOptions);
+        if(token){
+            const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem')) || process.env.publickey;
+    
+            const verifyOptions: VerifyOptions = {
+            algorithms: [ALGORITHM],
+            };
         
+            req.body.identify = verify(token, publicKey, verifyOptions);
+            
+        }
+        next();
+    } catch (error) {
+        res.status(Http.BadRequest.status).send({
+            status: Http.BadRequest.status,
+            statusText: 'Cannot verify token'
+        });
     }
-    next();
   }
 
   export const roleChecking = (...allowRoles) => {
@@ -73,9 +80,10 @@ export async function validateToken(req, res, next) {
                     }
                     else if(req.body.identify.role==ele.role){
                         if(ele.range=='self'){
-                            allow = true;
                             // if(req.body.identify.id==req.params.merchant_id)
                             //     allow = true;
+                            var id = req.params[`${ele.role}_id`] || req.body[`${ele.role}_id`];
+                            console.log(id);
                         }
                         else allow = true;
                     }

@@ -22,9 +22,13 @@ export class MerchantController {
 
     public async logInMerchant (req: Request, res: Response) {
         try {
-            var data = (await new Merchant().selectByEmail(req.body));
+            var filterform = `
+                id
+            `;
+            var data = (await new Merchant().selectByEmail(req.body, filterform ));
             if(data.length){
                 data[0].token=jwtEncode(data[0].id, data[0].email, 'merchant');
+                data[0].role='merchant';
                 res.status(Http.OK.status).send({
                     data: data[0]
                 });
@@ -55,6 +59,16 @@ export class MerchantController {
         try {
             res.status(Http.OK.status).send({
                 data: await new Merchant().selectAll()
+            });
+        } catch (error) {
+            res.status(Http.Failed.status).send(Http.Failed);
+        }
+    }
+
+    public async readAllMerchantById(req: Request, res: Response) {
+        try {
+            res.status(Http.OK.status).send({
+                data: await new Merchant().selectById(req.params.merchant_id)
             });
         } catch (error) {
             res.status(Http.Failed.status).send(Http.Failed);

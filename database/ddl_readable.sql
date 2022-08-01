@@ -32,7 +32,6 @@ CREATE TABLE merchant (
 
     id BIGSERIAL,
     name TEXT,
-    password TEXT,
     description TEXT,
     category TEXT,
     address TEXT,

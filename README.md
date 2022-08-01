@@ -25,9 +25,7 @@ You can **restore** the database of this system from the file in this path: `del
 ## Web Application
 
 - Run `$ npm install`
-- Create `.env.database` file in root level
-
-- Fill your database information to `.env.database` file:
+- Create `.env.database` file in root level. Fill your database information to `.env.database` file:
     ```
     HOST="<host-name>"
     PORT=<your postgresql port>
@@ -35,7 +33,11 @@ You can **restore** the database of this system from the file in this path: `del
     PASSWORD="root"
     DATABASE_NAME="webstore"
     ```
-- Create private/public key (For JWT authentication):
+- Create `.env.auth` file in root level. Fill passphrase to `.env.auth` file (for JWT authentication, I already create public/private keys, just fill the passphrase to use them):
+    ```
+    passphrase=`zxcvbnm`
+    ```
+<!-- - Create private/public key (For JWT authentication):
     - Install [OpenSSL](https://slproweb.com/products/Win32OpenSSL.html) (version 63MB)
     - Add the path of binary file `...\OpenSSL-Win64\bin` to environment variables.
     - To create private key, run this cmd in root level:
@@ -45,11 +47,9 @@ You can **restore** the database of this system from the file in this path: `del
         ```
         passphrase='your-passhrase'
         ```
-    - To create public key, run this cmd in root level: `openssl rsa -in private.pem -outform PEM -pubout -out public.pem` 
+    - To create public key, run this cmd in root level: `openssl rsa -in private.pem -outform PEM -pubout -out public.pem`  -->
 
-- Create `.env.webserver` file in root level
-
-- Fill your database information to `.env.webserver` file:
+- Create `.env.webserver` file in root level. Fill your database information to `.env.webserver` file:
     ```
     WEB_PORT=<your webserver port>
     ```

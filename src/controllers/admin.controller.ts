@@ -17,9 +17,11 @@ export class AdminController{
 
     public async logInAdmin (req: Request, res: Response) {
         try {
-            var data = (await new Admin().selectByEmail(req.body));
+            var form = `id`
+            var data = (await new Admin().selectByEmail(req.body, form));
             if(data.length){
                 data[0].token=jwtEncode(data[0].id, data[0].email, 'admin');
+                data[0].role='admin';
                 res.status(Http.OK.status).send({
                     data: data[0]
                 });
