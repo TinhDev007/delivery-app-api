@@ -7,7 +7,7 @@ export class MerchantController {
 
     public async signUpNewMerchant (req: Request, res: Response) {
         try {
-            await new Merchant().insertOne(req.body, req.files);
+            await new Merchant().insertShortOne(req.body);
             res.status(Http.OK.status).send({
                 status: 200,
                 statusText: "Sign up successfully."

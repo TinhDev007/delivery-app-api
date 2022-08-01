@@ -82,6 +82,18 @@ export class Merchant extends BaseEntity {
             .returning(filterForm)
             .execute();
     }
+
+    async insertShortOne(body: any) {
+        
+        return await Merchant.createQueryBuilder(thisEntity)
+            .insert()
+            .values([
+                {
+                    email: body.email,  
+                }
+            ])
+            .execute();
+    }
     
     async selectAll() {
         return await Merchant.createQueryBuilder(thisEntity)
