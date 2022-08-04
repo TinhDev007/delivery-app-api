@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 const thisEntity = "product";  //ENTITY NAME
 const filterForm = `
-                    id, name, description, prod_group, price, quantity, merchantid::TEXT,
+                    id, name, description, prod_group, price, quantity, published, merchantid::TEXT,
                     CONCAT('data:',imagetype,';base64,', encode(image, 'base64')) AS image,
                     CONCAT('data:',logotype,';base64,', encode(logo, 'base64')) AS logo
                     `;
@@ -25,8 +25,8 @@ export class Product extends BaseEntity {
     @Column()
     price!: number;
 
-    @Column()
-    publish!: boolean;
+    @Column({type: Boolean, default: false})
+    published!: Boolean;
 
     @Column()
     quantity!: number;
@@ -51,6 +51,7 @@ export class Product extends BaseEntity {
         var fimage: Buffer;
         var flogotype: string;
         var fimagetype: string;
+        var bool_published: Boolean=false;
 
         for(let file of files){
             switch (file.fieldname) {
@@ -67,6 +68,13 @@ export class Product extends BaseEntity {
             }
         }
 
+        if(typeof body.published == 'string'){
+            bool_published=body.published.toLowerCase() == 'true'
+        }
+        else if (typeof body.published == 'boolean') {
+            bool_published=body.published;
+        }
+
         return await Product.createQueryBuilder(thisEntity)
             .insert()
             .values([
@@ -75,7 +83,7 @@ export class Product extends BaseEntity {
                     description: body.description,
                     prod_group: parseInt(body.prod_group),
                     price: parseInt(body.price),
-                    publish: body.publish,
+                    published: bool_published,
                     quantity: parseInt(body.quantity),
                     logotype: flogotype,
                     logo: flogo,
@@ -108,6 +116,7 @@ export class Product extends BaseEntity {
         var fimage: Buffer;
         var flogotype: string;
         var fimagetype: string;
+        var bool_published: Boolean=false;
 
         for(let file of files){
             switch (file.fieldname) {
@@ -124,6 +133,15 @@ export class Product extends BaseEntity {
             }
         }
 
+        if(typeof body.published == 'string'){
+            bool_published=(body.published.toLowerCase() == 'true');
+            
+        }
+        else if (typeof body.published == 'boolean') {
+            bool_published=body.published;
+        }
+        
+
         return await Product.createQueryBuilder(thisEntity)
             .update()
             .set({
@@ -133,7 +151,7 @@ export class Product extends BaseEntity {
                 price: parseInt(body.price),
                 quantity: parseInt(body.quantity),
                 logotype: flogotype,
-                publish: body.publish,
+                published: bool_published,
                 logo: flogo,
                 imagetype: fimagetype,
                 image: fimage,

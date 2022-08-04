@@ -74,7 +74,6 @@ export async function validateToken(req, res, next) {
             }
             else {
                 // const allow = roleList.includes(req.body.identify.role);
-                console.log(req.headers);
                 var allow: boolean = false;
                 roleList.forEach((ele) => {
                     if(!req.headers) {

@@ -53,7 +53,7 @@ CREATE TABLE product (
     description TEXT,
     prod_group BIGINT,
     price INTEGER,
-    publish boolean,
+    published boolean,
     quantity INTEGER,
     logo bytea,
     logotype text,
@@ -172,7 +172,7 @@ CREATE OR REPLACE FUNCTION delete_merchant_trigger_function()
    LANGUAGE PLPGSQL
 AS $$
 BEGIN
-    DELETE FROM public.usr WHERE id = OLD.id;
+    DELETE FROM public.usr WHERE email = OLD.email;
     RETURN OLD;
 END;
 $$;
@@ -226,7 +226,7 @@ CREATE OR REPLACE FUNCTION delete_user_trigger_function()
    LANGUAGE PLPGSQL
 AS $$
 BEGIN
-   DELETE FROM public.usr WHERE id = OLD.id;
+   DELETE FROM public.usr WHERE email = OLD.email;
     RETURN OLD;
 END;
 $$;

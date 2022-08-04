@@ -89,11 +89,11 @@ export class Routes {
         //--Read - Roles allowed: admin
         app.get('/users', roleChecking(ROLE.ADMIN_ALL), this.UserController.readAllUser);
         //--Read specific user - Roles allowed: user
-        app.get('/users/:user_id', roleChecking(ROLE.USER_SELF), this.UserController.readUserById);
+        app.get('/users/:user_id', roleChecking(ROLE.ADMIN_ALL, ROLE.USER_SELF), this.UserController.readUserById);
 
-        // app.put('/users/:user_id', roleChecking(ROLE.ADMIN_ALL, ROLE.USER_SELF), this.UserController.readUserById);
+        // app.put('/users/:user_id', roleChecking(ROLE.ADMIN_ALL, ROLE.USER_SELF), this.UserController.updateOneUser);
 
-        // app.delete('/users/:user_id', roleChecking(ROLE.ADMIN_ALL, ROLE.USER_SELF), this.UserController.readUserById);
+        // app.delete('/users/:user_id', roleChecking(ROLE.ADMIN_ALL, ROLE.USER_SELF), this.UserController.deleteOneUser);
 
         //MERCHANT
         //--Signup - Roles allowed: unknown guess
