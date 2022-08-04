@@ -149,7 +149,7 @@ export class Routes {
         app.route('/products/:merchant_id')
         .get(roleChecking(ROLE.NONE, ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF, ROLE.USER_ALL), this.ProductController.readAllProductByMerchantId);
         //--Update - Roles allowed: admin, merchant
-        app.put('/products/:product_id', roleChecking(ROLE.NONE, ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductController.updateOneProduct, upload.single('image'))
+        app.put('/products/:product_id', roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductController.updateOneProduct, upload.single('image'))
         //--Delete - Roles allowed: admin, merchant
         app.route('/products/:product_id')
         .delete(roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductController.deleteOneProduct);
