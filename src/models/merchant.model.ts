@@ -20,7 +20,7 @@ export class Merchant extends BaseEntity {
     description!: string;
 
     @Column()
-    category!: string;
+    category!: number;
 
     @Column()
     address!: string;

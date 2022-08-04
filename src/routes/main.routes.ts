@@ -169,6 +169,5 @@ export class Routes {
         //--Delete - Roles allowed: admin, merchant
         app.route('/productgroups/:productgroup_id')
         .delete(roleChecking(ROLE.ADMIN_ALL, ROLE.MERCHANT_SELF), this.ProductGroupController.deleteOneProductGroup);
-
     }
 }
