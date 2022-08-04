@@ -178,7 +178,7 @@ END;
 $$;
 
 CREATE OR REPLACE TRIGGER delete_merchant_trigger 
-    BEFORE UPDATE ON public.merchant 
+    BEFORE DELETE ON public.merchant 
     FOR EACH ROW
     EXECUTE PROCEDURE delete_merchant_trigger_function();
 
@@ -232,7 +232,7 @@ END;
 $$;
 
 CREATE OR REPLACE TRIGGER delete_user_trigger 
-    BEFORE INSERT ON public.client 
+    BEFORE DELETE ON public.client 
     FOR EACH ROW
     EXECUTE PROCEDURE delete_user_trigger_function();
 

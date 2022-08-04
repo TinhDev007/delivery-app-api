@@ -69,7 +69,7 @@ export class Merchant extends BaseEntity {
                 {
                     name: body.name,
                     description: body.description,
-                    category: body.category,
+                    category: parseInt(body.category),
                     address: body.address,
                     phone: body.phone,
                     email: body.email,
@@ -142,7 +142,7 @@ export class Merchant extends BaseEntity {
             .set({
                 name: body.name,
                 description: body.description,
-                category: body.category,
+                category: parseInt(body.category),
                 address: body.address,
                 phone: body.phone,
                 email: body.email,

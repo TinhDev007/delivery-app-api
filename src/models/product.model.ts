@@ -20,10 +20,13 @@ export class Product extends BaseEntity {
     description!: string;
 
     @Column()
-    prod_group!: string;
+    prod_group!: number;
 
     @Column()
     price!: number;
+
+    @Column()
+    publish!: boolean;
 
     @Column()
     quantity!: number;
@@ -70,8 +73,9 @@ export class Product extends BaseEntity {
                 {
                     name: body.name,
                     description: body.description,
-                    prod_group: body.prod_group,
+                    prod_group: parseInt(body.prod_group),
                     price: parseInt(body.price),
+                    publish: body.publish,
                     quantity: parseInt(body.quantity),
                     logotype: flogotype,
                     logo: flogo,
@@ -125,10 +129,11 @@ export class Product extends BaseEntity {
             .set({
                 name: body.name,
                 description: body.description,
-                prod_group: body.prod_group,
+                prod_group: parseInt(body.prod_group),
                 price: parseInt(body.price),
                 quantity: parseInt(body.quantity),
                 logotype: flogotype,
+                publish: body.publish,
                 logo: flogo,
                 imagetype: fimagetype,
                 image: fimage,
