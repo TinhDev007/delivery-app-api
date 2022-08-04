@@ -77,11 +77,6 @@ export class Routes {
                 break;
             }
           });
-        
-        //ADMIN
-        //--Login - Roles allowed: unknown guess
-        // app.post('/admins/login', roleChecking(ROLE.NONE), this.AdminController.logInAdmin);
-
 
         //USER
         //--Create - Roles allowed: admin
@@ -96,10 +91,6 @@ export class Routes {
         // app.delete('/users/:user_id', roleChecking(ROLE.ADMIN_ALL, ROLE.USER_SELF), this.UserController.deleteOneUser);
 
         //MERCHANT
-        //--Signup - Roles allowed: unknown guess
-        // app.post('/merchants/signup', roleChecking(ROLE.NONE), this.MerchantController.signUpNewMerchant, upload.single('image'));
-        //--Login - Roles allowed: unknown guess
-        // app.post('/merchants/login', roleChecking(ROLE.NONE), this.MerchantController.logInMerchant);
         //--Create - Roles allowed: admin, merchant
         app.post('/merchants/create', 
           roleChecking(ROLE.ADMIN_ALL), 
