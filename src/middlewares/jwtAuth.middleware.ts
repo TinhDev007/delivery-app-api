@@ -5,6 +5,7 @@ dotenv.config({ path: __dirname + '/../../.env.auth' });
 import * as fs from 'fs';
 import * as path from 'path';
 import { Http } from './httpResponse';
+import { findmerchantid } from '../utils/findmerchantid.utils';
 
 const ALGORITHM = 'RS256';
 const EXPIRE_TIME = '365d';
@@ -64,7 +65,7 @@ export async function validateToken(req, res, next) {
   }
 
   export const roleChecking = (...allowRoles) => {
-    return (req, res, next) => {
+    return async (req, res, next) => {
         // console.log(req.headers.authorization);
         try {
            
@@ -75,23 +76,22 @@ export async function validateToken(req, res, next) {
             }
             else {
                 // const allow = roleList.includes(req.body.identify.role);
-                var allow: boolean = false;
-                roleList.forEach((ele) => {
+                let allow: boolean = false;
+                for(let ele of roleList){
                     if(!req.headers) {
                         if(ele.role=='none')
                             allow = true;
                     }
-                    else if(req.body.identify.role==ele.role){
-                        
+                    else if(req.body.identify.role==ele.role){     
                         if(ele.range=='self'){
-                            
-                            var id = req.params[`${ele.role}_id`] || req.body[`${ele.role}id`];
-                            if(req.body.identify.id==id || req.route.methods.delete)
+                            var id = req.params[`${ele.role}_id`] || req.body[`${ele.role}id`] || await findmerchantid(req);                          
+                            if(req.body.identify.id==id)
                                 allow = true;
                         }
                         else allow = true;
+                        
                     }
-                });
+                }
                 if(allow) next();
                 else res.status(Http.BadRequest.status).send(Http.BadRequest);
             }

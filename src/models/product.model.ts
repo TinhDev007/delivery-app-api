@@ -111,6 +111,14 @@ export class Product extends BaseEntity {
             .execute();
     }
 
+    async selectMerchantidById(id: number) {
+        return await Product.createQueryBuilder(thisEntity)
+            .select(`merchantid`)
+            .where(`${thisEntity}.id = :id`, { id: id })
+            .orderBy(`${thisEntity}.id`, 'ASC')
+            .execute();
+    }
+
     async updateOne(body: any, files: any, id: number) {
         var flogo: Buffer;
         var fimage: Buffer;

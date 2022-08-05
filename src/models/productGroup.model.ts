@@ -46,6 +46,14 @@ export class ProductGroup extends BaseEntity {
             .execute();
     }
 
+    async selectMerchantidById(id: number) {
+        return await ProductGroup.createQueryBuilder(thisEntity)
+            .select(`merchantid`)
+            .where(`${thisEntity}.id = :id`, { id: id })
+            .orderBy(`${thisEntity}.id`, 'ASC')
+            .execute();
+    }
+
     async updateOne(body: any, id: number) {
         return await ProductGroup.createQueryBuilder(thisEntity)
             .update()

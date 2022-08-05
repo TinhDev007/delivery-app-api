@@ -63,7 +63,6 @@ export class ProductController {
 
     public async deleteOneProduct(req: Request, res: Response) {
         try {
-
             if (Number.isInteger(parseInt(req.params.product_id)))
                 await new Product().deleteOne(parseInt(req.params.product_id));
             else
