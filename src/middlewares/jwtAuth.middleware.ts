@@ -43,7 +43,7 @@ export function jwtEncode(id: any, email: any, role: any) {
 export async function validateToken(req, res, next) {
     try {
         var token = req.headers.authorization?.split(' ')[1];
-
+        
         if(token){
             const publicKey = fs.readFileSync(path.join(__dirname, '../../public.pem')) || process.env.publickey;
     
@@ -65,6 +65,7 @@ export async function validateToken(req, res, next) {
 
   export const roleChecking = (...allowRoles) => {
     return (req, res, next) => {
+        // console.log(req.headers.authorization);
         try {
            
             const roleList = [...allowRoles];
@@ -83,10 +84,10 @@ export async function validateToken(req, res, next) {
                     else if(req.body.identify.role==ele.role){
                         
                         if(ele.range=='self'){
-                            // if(req.body.identify.id==req.params.merchant_id)
+                            
+                            var id = req.params[`${ele.role}_id`] || req.body[`${ele.role}id`];
+                            if(req.body.identify.id==id || req.route.methods.delete)
                                 allow = true;
-                            // var id = req.params[`${ele.role}_id`] || req.body[`${ele.role}_id`];
-                            // console.log(id);
                         }
                         else allow = true;
                     }
