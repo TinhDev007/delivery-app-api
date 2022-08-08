@@ -39,7 +39,7 @@ export class Category extends BaseEntity {
     async selectAll() {
         return await Category.createQueryBuilder(thisEntity)
             .select(filterForm)
-            .orderBy(`${thisEntity}.id`, 'ASC')
+            .orderBy(`${thisEntity}.name`, 'ASC')
             .execute();
     }
 
