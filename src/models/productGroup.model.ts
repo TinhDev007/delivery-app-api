@@ -42,7 +42,7 @@ export class ProductGroup extends BaseEntity {
         return await ProductGroup.createQueryBuilder(thisEntity)
             .select(filterForm)
             .where(`${thisEntity}.merchantid = :id`, { id: merchantid })
-            .orderBy(`${thisEntity}.name`, 'ASC')
+            .orderBy(`${thisEntity}.id`, 'ASC')
             .execute();
     }
 
