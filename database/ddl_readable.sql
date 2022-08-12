@@ -54,6 +54,7 @@ CREATE TABLE product (
     prod_group BIGINT,
     price INTEGER,
     published boolean,
+    featured boolean,
     quantity INTEGER,
     logo bytea,
     logotype text,
