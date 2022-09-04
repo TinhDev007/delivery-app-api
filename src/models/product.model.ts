@@ -2,7 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 const thisEntity = "product";  //ENTITY NAME
 const filterForm = `
-                    id, name, description, prod_group, price, quantity, published, featured, merchantid::TEXT,
+                    id, name, description, prod_group, price, quantity, published, merchantid::TEXT,
+                    ( case when id > 0 then 'true' else 'false' end ) as featured,
                     CONCAT('data:',imagetype,';base64,', encode(image, 'base64')) AS image,
                     CONCAT('data:',logotype,';base64,', encode(logo, 'base64')) AS logo
                     `;
@@ -28,8 +29,8 @@ export class Product extends BaseEntity {
     @Column({type: Boolean, default: false})
     published!: Boolean;
 
-    @Column({type: Boolean, default: false})
-    featured!: Boolean;
+    // @Column({type: Boolean, default: false})
+    // featured!: Boolean;
 
     @Column()
     quantity!: number;
@@ -95,7 +96,7 @@ export class Product extends BaseEntity {
                     prod_group: parseInt(body.prod_group),
                     price: parseInt(body.price),
                     published: bool_published,
-                    featured: bool_featured,
+                    // featured: bool_featured,
                     quantity: parseInt(body.quantity),
                     logotype: flogotype,
                     logo: flogo,
@@ -180,7 +181,7 @@ export class Product extends BaseEntity {
                 quantity: parseInt(body.quantity),
                 logotype: flogotype,
                 published: bool_published,
-                featured: bool_featured,
+                // featured: bool_featured,
                 logo: flogo,
                 imagetype: fimagetype,
                 image: fimage,
