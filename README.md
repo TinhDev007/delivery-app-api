@@ -9,7 +9,7 @@
 
 ## Database
 
-You can **restore** the database of this system from the file in this path: `delivery-app-api/database/ddl_for_restore.sql`. If you don't know how to **restore**, do the following steps:
+<!-- You can **restore** the database of this system from the file in this path: `delivery-app-api/database/ddl_for_restore.sql`. If you don't know how to **restore**, do the following steps:
 
 - Install PostgreSQL (choose port `5432`)
 - Open Pgadmin 4 
@@ -21,9 +21,7 @@ You can **restore** the database of this system from the file in this path: `del
 
 - Restore `webstore` database with source code from this path: `delivery-app-api/database/ddl_for_restore.sql`.
 
-(You can also paste the content in `delivery-app-api/database/ddl_readable.sql` and `delivery-app-api/database/dml_readable.sql` to `Query Tool` of `webstore` database to restore the database)
-
-`pg_dump -h <HOST> -p <PORT> -U postgres <DATABASE_NAME> > database/migration/client_backup.sql`
+(You can also paste the content in `delivery-app-api/database/ddl_readable.sql` and `delivery-app-api/database/dml_readable.sql` to `Query Tool` of `webstore` database to restore the database) -->
 
 ## Database Synchronization
 
