@@ -22,6 +22,26 @@ You can **restore** the database of this system from the file in this path: `del
 - Restore `webstore` database with source code from this path: `delivery-app-api/database/ddl_for_restore.sql`.
 
 (You can also paste the content in `delivery-app-api/database/ddl_readable.sql` and `delivery-app-api/database/dml_readable.sql` to `Query Tool` of `webstore` database to restore the database)
+
+`pg_dump -h <HOST> -p <PORT> -U postgres <DATABASE_NAME> > database/migration/client_backup.sql`
+
+## Database Synchronization
+
+For synchonizing data between local and staging server, before starting server we need to update database, please run:
+```
+dropdb -h <HOST> -p <PORT> -U <UNAME> <DATABASE_NAME>
+```
+```
+createdb -h <HOST> -p <PORT> -U <UNAME> <DATABASE_NAME>
+```
+```
+psql -h <HOST> -p <PORT> -U postgres <DATABASE_NAME> < database/development_dump.sql
+```
+After inserting any new data, we need to backup new database, please run:
+```
+pg_dump -h <HOST> -p <PORT> -U postgres <DATABASE_NAME> > database/client_dump.sql
+```
+While `<HOST>`, `<PORT>`, `<DATABASE_NAME>` is your database information in `env.database`. The password is also `<PASSWORD>` in `env.database`.
 ## Web Application
 
 - Run `$ npm install`
