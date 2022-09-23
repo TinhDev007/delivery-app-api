@@ -98,6 +98,25 @@ export class MerchantController {
         }
     }
 
+    public async updateMerchantOrder(req: Request, res: Response) {
+        try {
+
+                
+                res.status(Http.OK.status).send({
+                    data: (await new Merchant().updateOrder(
+                        req.body
+                    ))
+                });
+
+
+        } catch (error) {
+            if (error.status == Http.BadRequest.status)
+                res.status(Http.BadRequest.status).send(Http.BadRequest);
+            else
+                res.status(Http.Failed.status).send(Http.Failed);
+        }
+    }
+
     public async deleteOneMerchant(req: Request, res: Response) {
         try {
 

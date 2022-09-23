@@ -60,6 +60,29 @@ export class ProductController {
                 res.status(Http.Failed.status).send(Http.Failed);
         }
     }
+    
+    public async updateProductOrder(req: Request, res: Response) {
+        
+        try { 
+            
+            res.status(Http.OK.status).send({
+                data: (await new Product().updateOrder(
+                    req.body
+                ))
+            });
+
+        } catch (error) {
+            if (error.status == Http.BadRequest.status)
+                res.status(Http.BadRequest.status).send(Http.BadRequest);
+            else{
+                res.status(Http.Failed.status).send(Http.Failed);
+                console.log(error);
+            }
+                
+
+                
+        }
+    }
 
     public async deleteOneProduct(req: Request, res: Response) {
         try {

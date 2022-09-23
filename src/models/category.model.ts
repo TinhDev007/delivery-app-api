@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 const thisEntity = "category";  //ENTITY NAME
 const filterForm = `
-                    id, name,  
+                    id, name, ord AS order,
                     CONCAT('data:',imagetype,';base64,', encode(image, 'base64')) AS image
                     `;
 
@@ -14,6 +14,9 @@ export class Category extends BaseEntity {
 
     @Column()
     name!: string;
+
+    @Column()
+    ord!: number;
 
     @Column({type : 'bytea', nullable: false})
     image!: Buffer;
@@ -54,6 +57,20 @@ export class Category extends BaseEntity {
             .where(`${thisEntity}.id = :id`, { id: id })
             .returning(filterForm)
             .execute();
+    }
+
+    async updateOrder(body: any) {
+
+        await Category.getRepository().
+            query(`CALL public.category_change_ord( 
+                ${parseInt(body.original_order)} , 
+                ${parseInt(body.destination_order)} )`);
+
+        return await Category.createQueryBuilder(thisEntity)
+        .select(filterForm)
+        .where(`${thisEntity}.ord = :ord`, { ord: parseInt(body.destination_order) })
+        .orderBy(`${thisEntity}.ord`, 'ASC')
+        .execute();
     }
 
     async deleteOne(id: number) {

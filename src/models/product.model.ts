@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 const thisEntity = "product";  //ENTITY NAME
 const filterForm = `
-                    id, name, description, prod_group, price, quantity, published, featured, merchantid::TEXT,
+                    id, name, ord AS order, description, prod_group, price, quantity, published, featured, merchantid::TEXT,
                     CONCAT('data:',imagetype,';base64,', encode(image, 'base64')) AS image,
                     CONCAT('data:',logotype,';base64,', encode(logo, 'base64')) AS logo
                     `;
@@ -48,6 +48,9 @@ export class Product extends BaseEntity {
 
     @Column()
     merchantid!: number;
+
+    @Column()
+    ord!: number;
 
     async insertOne(body: any, files: any) {
         var flogo: Buffer;
@@ -111,7 +114,7 @@ export class Product extends BaseEntity {
     async selectAll() {
         return await Product.createQueryBuilder(thisEntity)
             .select(filterForm)
-            .orderBy(`${thisEntity}.id`, 'ASC')
+            .orderBy(`${thisEntity}.ord`, 'ASC')
             .execute();
     }
 
@@ -119,7 +122,7 @@ export class Product extends BaseEntity {
         return await Product.createQueryBuilder(thisEntity)
             .select(filterForm)
             .where(`${thisEntity}.merchantid = :id`, { id: merchantid })
-            .orderBy(`${thisEntity}.id`, 'ASC')
+            .orderBy(`${thisEntity}.ord`, 'ASC')
             .execute();
     }
 
@@ -127,7 +130,7 @@ export class Product extends BaseEntity {
         return await Product.createQueryBuilder(thisEntity)
             .select(`merchantid`)
             .where(`${thisEntity}.id = :id`, { id: id })
-            .orderBy(`${thisEntity}.id`, 'ASC')
+            .orderBy(`${thisEntity}.ord`, 'ASC')
             .execute();
     }
 
@@ -189,6 +192,20 @@ export class Product extends BaseEntity {
             .where(`${thisEntity}.id = :id`, { id: id })
             .returning(filterForm)
             .execute();
+    }
+
+    async updateOrder(body: any) {
+
+        await Product.getRepository().
+            query(`CALL public.product_change_ord( 
+                ${parseInt(body.original_order)} , 
+                ${parseInt(body.destination_order)} )`);
+
+        return await Product.createQueryBuilder(thisEntity)
+        .select(filterForm)
+        .where(`${thisEntity}.ord = :ord`, { ord: parseInt(body.destination_order) })
+        .orderBy(`${thisEntity}.ord`, 'ASC')
+        .execute();
     }
 
     async deleteOne(id: number) {

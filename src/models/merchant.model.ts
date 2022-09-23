@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 const thisEntity = "merchant";  //ENTITY NAME
 const filterForm = `
-                    id, name, description, category, address, phone, email, 
+                    id, name, ord AS order, description, category, address, phone, email, 
                     CONCAT('data:',imagetype,';base64,', encode(image, 'base64')) AS image,
                     CONCAT('data:',logotype,';base64,', encode(logo, 'base64')) AS logo
                     `;
@@ -30,6 +30,9 @@ export class Merchant extends BaseEntity {
 
     @Column()
     email!: string;
+
+    @Column()
+    ord!: number;
 
     @Column({ type: "bytea", nullable: false })
     logo!: Buffer;
@@ -154,6 +157,20 @@ export class Merchant extends BaseEntity {
             .where(`${thisEntity}.id = :id`, { id: id })
             .returning(filterForm)
             .execute();
+    }
+
+    async updateOrder(body: any) {
+
+        await Merchant.getRepository().
+            query(`CALL public.merchant_change_ord( 
+                ${parseInt(body.original_order)} , 
+                ${parseInt(body.destination_order)} )`);
+
+        return await Merchant.createQueryBuilder(thisEntity)
+        .select(filterForm)
+        .where(`${thisEntity}.ord = :ord`, { ord: parseInt(body.destination_order) })
+        .orderBy(`${thisEntity}.ord`, 'ASC')
+        .execute();
     }
 
     async deleteOne(id: number) {

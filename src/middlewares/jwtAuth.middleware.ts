@@ -76,6 +76,7 @@ export async function validateToken(req, res, next) {
             }
             else {
                 // const allow = roleList.includes(req.body.identify.role);
+                
                 let allow: boolean = false;
                 for(let ele of roleList){
                     if(!req.headers) {
@@ -92,7 +93,10 @@ export async function validateToken(req, res, next) {
                         
                     }
                 }
-                if(allow) next();
+                
+                if(allow) {
+                    next();
+                }
                 else res.status(Http.BadRequest.status).send(Http.BadRequest);
             }
         } catch (error) {

@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 const thisEntity = "product_group";  //ENTITY NAME
 const filterForm = `
-                    id, name, merchantid::TEXT
+                    id, name, ord AS order, merchantid::TEXT
                     `;
 
 @Entity({ name: thisEntity})
@@ -16,6 +16,9 @@ export class ProductGroup extends BaseEntity {
 
     @Column()
     merchantid!: number;
+
+    @Column()
+    ord!: number;
 
     async insertOne(body: any) {
  
@@ -64,6 +67,20 @@ export class ProductGroup extends BaseEntity {
             .where(`${thisEntity}.id = :id`, { id: id })
             .returning(filterForm)
             .execute();
+    }
+
+    async updateOrder(body: any) {
+
+        await ProductGroup.getRepository().
+            query(`CALL public.product_group_change_ord( 
+                ${parseInt(body.original_order)} , 
+                ${parseInt(body.destination_order)} )`);
+
+        return await ProductGroup.createQueryBuilder(thisEntity)
+        .select(filterForm)
+        .where(`${thisEntity}.ord = :ord`, { ord: parseInt(body.destination_order) })
+        .orderBy(`${thisEntity}.ord`, 'ASC')
+        .execute();
     }
 
     async deleteOne(id: number) {
