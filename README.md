@@ -23,7 +23,8 @@
 
 (You can also paste the content in `delivery-app-api/database/ddl_readable.sql` and `delivery-app-api/database/dml_readable.sql` to `Query Tool` of `webstore` database to restore the database) -->
 
-## Database Synchronization
+## Database Migration
+Install Knex `npm install knex -g`
 
 Run knex database migration: `$ knex migrate:latest --env staging`
 To rollback the last batch of migrations: `$ knex migrate:rollback`
