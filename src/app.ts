@@ -4,7 +4,6 @@ import { Routes } from "./routes/main.routes";
 import { Connection, createConnection } from "typeorm";
 import * as model from "./models/main.model";
 import * as dotenv from "dotenv";
-import { Knex, knex } from 'knex'
 import { validateToken, roleChecking } from "./middlewares/jwtAuth.middleware";
 // import multer = require("multer");
 const multer = require('multer');
@@ -77,26 +76,6 @@ class App {
             });
             console.log(`Postgres database connected on port: ${process.env.PORT}`)
             
-            const database = knex({
-                // client: 'pg',
-                // connection: `postgresql://${process.env.UNAME}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.PORT}/postgres`,
-                client: 'pg',
-                connection: {
-                  host : process.env.HOST,
-                  user : process.env.UNAME,
-                  password : process.env.PASSWORD,
-                  database : process.env.DATABASE_NAME
-                },
-                migrations: {
-                    tableName: 'migrations',
-                    directory: 'dbMigrations'
-                }
-            });
-
-            database.migrate.latest().then(() => {
-                database.destroy();
-                console.log(`Successfully migrate latest database version`)
-            });
             
         } catch (error) {
             console.log(`Database error: `, error);

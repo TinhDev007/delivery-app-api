@@ -25,21 +25,8 @@
 
 ## Database Synchronization
 
-For synchonizing data between local and staging server, before starting server we need to update database, please run:
-```
-dropdb -h <HOST> -p <PORT> -U <UNAME> <DATABASE_NAME>
-```
-```
-createdb -h <HOST> -p <PORT> -U <UNAME> <DATABASE_NAME>
-```
-```
-psql -h <HOST> -p <PORT> -U postgres <DATABASE_NAME> < database/development_dump.sql
-```
-After inserting any new data, we need to backup new database, please run:
-```
-pg_dump -h <HOST> -p <PORT> -U postgres <DATABASE_NAME> > database/client_dump.sql
-```
-While `<HOST>`, `<PORT>`, `<DATABASE_NAME>` is your database information in `env.database`. The password is also `<PASSWORD>` in `env.database`.
+Run knex database migration: `$ knex migrate:latest --env staging`
+To rollback the last batch of migrations: `$ knex migrate:rollback`
 ## Web Application
 
 - Run `$ npm install`
